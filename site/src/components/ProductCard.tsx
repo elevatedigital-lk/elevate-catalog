@@ -7,6 +7,7 @@ import {
   compressedUrl,
   discountedPrice,
   localized,
+  offerBadgeText,
   productDisplayName,
   type ActiveOffer,
   type Product,
@@ -33,7 +34,7 @@ export default function ProductCard({
   const onOffer = !!offer && offer.productIds.includes(product._id)
   const finalPrice = onOffer ? discountedPrice(product.price, offer!.discountPercent) : product.price
 
-  const message = t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString())
+  const message = t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString(), product.inStock)
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
   function prev(e: React.MouseEvent) {
@@ -62,7 +63,8 @@ export default function ProductCard({
           )}
           {onOffer && (
             <span className="absolute right-2 top-2 rounded-full bg-amber-400 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-neutral-900">
-              {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
+              {offerBadgeText(offer!, lang ?? 'en') ??
+                (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
             </span>
           )}
           {!product.inStock && (

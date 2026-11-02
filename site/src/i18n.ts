@@ -17,13 +17,14 @@ export type Dict = {
   footer: string
   all: string
   showing: (count: number, total: number) => string
-  whatsappMessage: (name: string, code: string, price: string) => string
+  whatsappMessage: (name: string, code: string, price: string, inStock: boolean) => string
   whatsappMessageDetailed: (
     name: string,
     code: string,
     price: string,
     color: string,
     size: string,
+    inStock: boolean,
   ) => string
   chooseLanguage: string
   languageNameEn: string
@@ -80,10 +81,14 @@ export const dict: Record<Lang, Dict> = {
     footer: 'All prices in LKR.',
     all: 'All',
     showing: (count, total) => `Showing ${count} of ${total} products`,
-    whatsappMessage: (name, code, price) =>
-      `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. Is it available?`,
-    whatsappMessageDetailed: (name, code, price, color, size) =>
-      `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. Color: ${color}, Size: ${size}. Is it available?`,
+    whatsappMessage: (name, code, price, inStock) =>
+      `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. ${
+        inStock ? 'Is it available?' : 'Will this be available soon?'
+      }`,
+    whatsappMessageDetailed: (name, code, price, color, size, inStock) =>
+      `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. Color: ${color}, Size: ${size}. ${
+        inStock ? 'Is it available?' : 'Will this be available soon?'
+      }`,
     chooseLanguage: 'Choose your language',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',
@@ -137,10 +142,14 @@ export const dict: Record<Lang, Dict> = {
     footer: 'සියලුම මිල ගණන් රු. (LKR) වලින්.',
     all: 'සියල්ල',
     showing: (count, total) => `නිෂ්පාදන ${total} න් ${count} ක් පෙන්වමින්`,
-    whatsappMessage: (name, code, price) =>
-      `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. මේක දැනට තියෙනවද?`,
-    whatsappMessageDetailed: (name, code, price, color, size) =>
-      `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. වර්ණය: ${color}, සයිස් එක: ${size}. මේක දැනට තියෙනවද?`,
+    whatsappMessage: (name, code, price, inStock) =>
+      `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. ${
+        inStock ? 'මේක දැනට තියෙනවද?' : 'මේක ළඟදීම ලැබෙනවද?'
+      }`,
+    whatsappMessageDetailed: (name, code, price, color, size, inStock) =>
+      `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. වර්ණය: ${color}, සයිස් එක: ${size}. ${
+        inStock ? 'මේක දැනට තියෙනවද?' : 'මේක ළඟදීම ලැබෙනවද?'
+      }`,
     chooseLanguage: 'ඔබගේ භාෂාව තෝරන්න',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',

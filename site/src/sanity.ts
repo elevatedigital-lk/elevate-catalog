@@ -88,6 +88,8 @@ export type ActiveOffer = {
   bannerTextEn: string
   bannerTextSi?: string
   discountPercent?: number
+  badgeTextEn?: string
+  badgeTextSi?: string
   productIds: string[]
 }
 
@@ -144,12 +146,14 @@ export async function getActiveOffer(): Promise<ActiveOffer | null> {
     bannerTextEn: string
     bannerTextSi?: string
     discountPercent?: number
+    badgeTextEn?: string
+    badgeTextSi?: string
     startDate: string
     endDate: string
     productIds: string[]
   }> = await client.fetch(
     `*[_type == "offer"]{
-      title, titleSi, bannerTextEn, bannerTextSi, discountPercent, startDate, endDate,
+      title, titleSi, bannerTextEn, bannerTextSi, discountPercent, badgeTextEn, badgeTextSi, startDate, endDate,
       "productIds": products[]._ref
     }`,
   )
@@ -164,6 +168,8 @@ export async function getActiveOffer(): Promise<ActiveOffer | null> {
     bannerTextEn: active.bannerTextEn,
     bannerTextSi: active.bannerTextSi,
     discountPercent: active.discountPercent,
+    badgeTextEn: active.badgeTextEn,
+    badgeTextSi: active.badgeTextSi,
     productIds: active.productIds || [],
   }
 }
@@ -187,4 +193,11 @@ export function productDisplayName(product: Product, lang: 'en' | 'si'): string 
   if (lang === 'si' && product.nameSi) return product.nameSi
   if (product.name) return product.name
   return `#${product.code}`
+}
+
+/** Custom offer badge text if the owner set one in Sanity, else null (caller falls back to the % template). */
+export function offerBadgeText(offer: ActiveOffer, lang: 'en' | 'si'): string | null {
+  if (lang === 'si' && offer.badgeTextSi) return offer.badgeTextSi
+  if (lang === 'en' && offer.badgeTextEn) return offer.badgeTextEn
+  return null
 }

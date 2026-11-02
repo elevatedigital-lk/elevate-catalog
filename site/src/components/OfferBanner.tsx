@@ -1,7 +1,7 @@
 'use client'
 
 import {useLanguage} from './LanguageProvider'
-import type {ActiveOffer} from '@/sanity'
+import {offerBadgeText, type ActiveOffer} from '@/sanity'
 
 export default function OfferBanner({offer}: {offer: ActiveOffer | null}) {
   const {t, lang} = useLanguage()
@@ -10,6 +10,7 @@ export default function OfferBanner({offer}: {offer: ActiveOffer | null}) {
 
   const title = lang === 'si' && offer.titleSi ? offer.titleSi : offer.title
   const text = lang === 'si' && offer.bannerTextSi ? offer.bannerTextSi : offer.bannerTextEn
+  const badge = offerBadgeText(offer, lang ?? 'en') ?? (offer.discountPercent ? t.offPercent(offer.discountPercent) : null)
 
   return (
     <a
@@ -22,9 +23,9 @@ export default function OfferBanner({offer}: {offer: ActiveOffer | null}) {
           <strong>{title}</strong> — {text}
         </span>
       </span>
-      {offer.discountPercent ? (
+      {badge ? (
         <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold text-neutral-900">
-          {t.offPercent(offer.discountPercent)}
+          {badge}
         </span>
       ) : null}
     </a>

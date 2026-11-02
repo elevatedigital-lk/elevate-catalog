@@ -7,6 +7,7 @@ import {
   compressedUrl,
   localized,
   discountedPrice,
+  offerBadgeText,
   productDisplayName,
   type ActiveOffer,
   type Product,
@@ -58,8 +59,9 @@ export default function ProductDetailClient({
           finalPrice.toLocaleString(),
           colorLabel || '-',
           sizeLabel || '-',
+          product.inStock,
         )
-      : t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString())
+      : t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString(), product.inStock)
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
   function handleInquireClick(e: React.MouseEvent) {
@@ -101,7 +103,8 @@ export default function ProductDetailClient({
             )}
             {onOffer && (
               <span className="absolute right-3 top-3 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-neutral-900">
-                {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
+                {offerBadgeText(offer!, lang ?? 'en') ??
+                  (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
               </span>
             )}
           </div>
@@ -161,7 +164,8 @@ export default function ProductDetailClient({
                   {t.msrp}:{' '}
                   <span className="line-through">LKR {product.price.toLocaleString()}</span>
                   <span className="ml-2 font-semibold text-amber-600">
-                    {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
+                    {offerBadgeText(offer!, lang ?? 'en') ??
+                      (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
                   </span>
                 </p>
               </>

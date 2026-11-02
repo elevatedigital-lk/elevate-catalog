@@ -39,6 +39,19 @@ export default defineType({
       validation: (Rule) => Rule.min(0).max(90),
     }),
     defineField({
+      name: 'badgeTextEn',
+      title: 'Badge Text (English)',
+      type: 'string',
+      description:
+        'Optional. The small label shown on the corner of the product photo, e.g. "20% OFF" or "Sale". Leave blank to auto-generate from the discount %.',
+    }),
+    defineField({
+      name: 'badgeTextSi',
+      title: 'Badge Text (Sinhala)',
+      type: 'string',
+      description: 'Optional. Sinhala wording for the same badge, e.g. "20% අඩු". Leave blank to auto-generate.',
+    }),
+    defineField({
       name: 'startDate',
       title: 'Start Date',
       type: 'date',
