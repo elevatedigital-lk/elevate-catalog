@@ -55,6 +55,8 @@ export type Dict = {
   sortNewest: string
   sortPriceLow: string
   sortPriceHigh: string
+  offPercent: (percent: number) => string
+  offerBadge: string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -109,6 +111,8 @@ export const dict: Record<Lang, Dict> = {
     sortNewest: 'Newest',
     sortPriceLow: 'Price: Low to High',
     sortPriceHigh: 'Price: High to Low',
+    offPercent: (percent) => `${percent}% OFF`,
+    offerBadge: 'Offer',
   },
   si: {
     siteTitle: 'Beto',
@@ -161,5 +165,7 @@ export const dict: Record<Lang, Dict> = {
     sortNewest: 'අලුත්ම',
     sortPriceLow: 'මිල: අඩුම සිට වැඩිම',
     sortPriceHigh: 'මිල: වැඩිම සිට අඩුම',
+    offPercent: (percent) => `${percent}% අඩු`,
+    offerBadge: 'දීමනාව',
   },
 }

@@ -18,17 +18,6 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'offerBannerEn',
-      title: 'Offer Banner (English)',
-      type: 'string',
-      description: 'Short promo line shown as a bold banner card on the homepage, e.g. "Festive Offer — ask us about this week\'s prices". Leave blank to hide it.',
-    }),
-    defineField({
-      name: 'offerBannerSi',
-      title: 'Offer Banner (Sinhala)',
-      type: 'string',
-    }),
-    defineField({
       name: 'policyNoteEn',
       title: 'Policy Note (English)',
       type: 'text',

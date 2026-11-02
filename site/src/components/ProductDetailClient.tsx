@@ -3,19 +3,28 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {compressedUrl, urlFor, localized, type Product} from '@/sanity'
+import {compressedUrl, urlFor, localized, discountedPrice, type ActiveOffer, type Product} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import WhatsAppButton from './WhatsAppButton'
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''
 
-export default function ProductDetailClient({product}: {product: Product}) {
+export default function ProductDetailClient({
+  product,
+  offer,
+}: {
+  product: Product
+  offer?: ActiveOffer | null
+}) {
   const {t, lang} = useLanguage()
   const [index, setIndex] = useState(0)
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [showValidation, setShowValidation] = useState(false)
   const images = product.images || []
+
+  const onOffer = !!offer && offer.productIds.includes(product._id)
+  const finalPrice = onOffer ? discountedPrice(product.price, offer!.discountPercent) : product.price
 
   const displayName = lang === 'si' && product.nameSi ? product.nameSi : product.name
   const displayDescription =
@@ -38,11 +47,11 @@ export default function ProductDetailClient({product}: {product: Product}) {
       ? t.whatsappMessageDetailed(
           displayName,
           product.code,
-          product.price.toLocaleString(),
+          finalPrice.toLocaleString(),
           colorLabel || '-',
           sizeLabel || '-',
         )
-      : t.whatsappMessage(displayName, product.code, product.price.toLocaleString())
+      : t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString())
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
   function handleInquireClick(e: React.MouseEvent) {
@@ -77,6 +86,11 @@ export default function ProductDetailClient({product}: {product: Product}) {
             {!product.inStock && (
               <span className="absolute left-3 top-3 rounded-full bg-black/80 px-3 py-1 text-xs font-medium text-white">
                 {t.outOfStock}
+              </span>
+            )}
+            {onOffer && (
+              <span className="absolute right-3 top-3 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-neutral-900">
+                {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
               </span>
             )}
           </div>
@@ -122,7 +136,16 @@ export default function ProductDetailClient({product}: {product: Product}) {
             {t.code}: {product.code}
           </p>
           <p className="mt-3 text-2xl font-bold text-neutral-900">
-            LKR {product.price.toLocaleString()}
+            {onOffer ? (
+              <span className="flex items-baseline gap-2">
+                <span className="text-amber-600">LKR {finalPrice.toLocaleString()}</span>
+                <span className="text-base text-neutral-400 line-through">
+                  {product.price.toLocaleString()}
+                </span>
+              </span>
+            ) : (
+              <>LKR {product.price.toLocaleString()}</>
+            )}
           </p>
 
           {needsColor && (
@@ -266,9 +289,20 @@ export default function ProductDetailClient({product}: {product: Product}) {
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs text-neutral-500">{displayName}</p>
-            <p className="text-base font-bold text-neutral-900">
-              LKR {product.price.toLocaleString()}
-            </p>
+            {onOffer ? (
+              <p className="flex items-baseline gap-1.5">
+                <span className="text-base font-bold text-amber-600">
+                  LKR {finalPrice.toLocaleString()}
+                </span>
+                <span className="text-xs text-neutral-400 line-through">
+                  {product.price.toLocaleString()}
+                </span>
+              </p>
+            ) : (
+              <p className="text-base font-bold text-neutral-900">
+                LKR {product.price.toLocaleString()}
+              </p>
+            )}
           </div>
           <a
             href={canInquire ? waLink : undefined}

@@ -1,5 +1,5 @@
 import {notFound} from 'next/navigation'
-import {getProductBySlug, getSiteSettings} from '@/sanity'
+import {getProductBySlug, getSiteSettings, getActiveOffer} from '@/sanity'
 import ProductDetailClient from '@/components/ProductDetailClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -13,7 +13,11 @@ export default async function ProductPage({
   params: Promise<{slug: string}>
 }) {
   const {slug} = await params
-  const [product, settings] = await Promise.all([getProductBySlug(slug), getSiteSettings()])
+  const [product, settings, offer] = await Promise.all([
+    getProductBySlug(slug),
+    getSiteSettings(),
+    getActiveOffer(),
+  ])
 
   if (!product) {
     notFound()
@@ -24,7 +28,7 @@ export default async function ProductPage({
       <OfferBar barEn={settings?.offerBarEn} barSi={settings?.offerBarSi} />
       <SiteHeader />
       <section className="mx-auto max-w-5xl px-4 py-8">
-        <ProductDetailClient product={product} />
+        <ProductDetailClient product={product} offer={offer} />
       </section>
       <SiteFooter />
     </main>

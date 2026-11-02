@@ -2,7 +2,7 @@
 
 import {useMemo, useState} from 'react'
 import ProductCard from '@/components/ProductCard'
-import {localized, type Product, type Taxonomy} from '@/sanity'
+import {localized, type ActiveOffer, type Product, type Taxonomy} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import FilterPills from './FilterPills'
 import FilterSheet from './FilterSheet'
@@ -14,10 +14,12 @@ export default function CatalogClient({
   products,
   categories,
   types,
+  offer,
 }: {
   products: Product[]
   categories: Taxonomy[]
   types: Taxonomy[]
+  offer?: ActiveOffer | null
 }) {
   const {t, lang} = useLanguage()
 
@@ -136,7 +138,7 @@ export default function CatalogClient({
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard key={product._id} product={product} offer={offer} />
           ))}
         </div>
       )}

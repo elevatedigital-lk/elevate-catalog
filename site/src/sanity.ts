@@ -77,12 +77,19 @@ export type Product = {
 export type SiteSettings = {
   offerBarEn?: string
   offerBarSi?: string
-  offerBannerEn?: string
-  offerBannerSi?: string
   policyNoteEn?: string
   policyNoteSi?: string
   orderingStepsEn?: string[]
   orderingStepsSi?: string[]
+}
+
+export type ActiveOffer = {
+  title: string
+  titleSi?: string
+  bannerTextEn: string
+  bannerTextSi?: string
+  discountPercent?: number
+  productIds: string[]
 }
 
 const productProjection = `
@@ -120,10 +127,51 @@ export async function getProductTypes(): Promise<Taxonomy[]> {
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   return client.fetch(
     `*[_type == "siteSettings"][0]{
-      offerBarEn, offerBarSi, offerBannerEn, offerBannerSi,
+      offerBarEn, offerBarSi,
       policyNoteEn, policyNoteSi, orderingStepsEn, orderingStepsSi
     }`,
   )
+}
+
+/**
+ * Whichever offer's date range currently includes today (there should only
+ * ever be one active at a time — the Studio editor is responsible for not
+ * overlapping date ranges). Returns null when nothing is currently running.
+ */
+export async function getActiveOffer(): Promise<ActiveOffer | null> {
+  const offers: Array<{
+    title: string
+    titleSi?: string
+    bannerTextEn: string
+    bannerTextSi?: string
+    discountPercent?: number
+    startDate: string
+    endDate: string
+    productIds: string[]
+  }> = await client.fetch(
+    `*[_type == "offer"]{
+      title, titleSi, bannerTextEn, bannerTextSi, discountPercent, startDate, endDate,
+      "productIds": products[]._ref
+    }`,
+  )
+
+  const today = new Date().toISOString().slice(0, 10)
+  const active = offers.find((o) => o.startDate <= today && today <= o.endDate)
+  if (!active) return null
+
+  return {
+    title: active.title,
+    titleSi: active.titleSi,
+    bannerTextEn: active.bannerTextEn,
+    bannerTextSi: active.bannerTextSi,
+    discountPercent: active.discountPercent,
+    productIds: active.productIds || [],
+  }
+}
+
+export function discountedPrice(price: number, discountPercent?: number): number {
+  if (!discountPercent) return price
+  return Math.round(price * (1 - discountPercent / 100))
 }
 
 export function localized(

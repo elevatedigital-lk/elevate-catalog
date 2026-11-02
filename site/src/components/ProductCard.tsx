@@ -3,13 +3,19 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {compressedUrl, localized, type Product} from '@/sanity'
+import {compressedUrl, discountedPrice, localized, type ActiveOffer, type Product} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import WhatsAppButton from './WhatsAppButton'
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''
 
-export default function ProductCard({product}: {product: Product}) {
+export default function ProductCard({
+  product,
+  offer,
+}: {
+  product: Product
+  offer?: ActiveOffer | null
+}) {
   const [index, setIndex] = useState(0)
   const {t, lang} = useLanguage()
   const images = product.images || []
@@ -17,7 +23,10 @@ export default function ProductCard({product}: {product: Product}) {
 
   const displayName = lang === 'si' && product.nameSi ? product.nameSi : product.name
 
-  const message = t.whatsappMessage(displayName, product.code, product.price.toLocaleString())
+  const onOffer = !!offer && offer.productIds.includes(product._id)
+  const finalPrice = onOffer ? discountedPrice(product.price, offer!.discountPercent) : product.price
+
+  const message = t.whatsappMessage(displayName, product.code, finalPrice.toLocaleString())
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
   function prev(e: React.MouseEvent) {
@@ -43,6 +52,11 @@ export default function ProductCard({product}: {product: Product}) {
               className="object-cover transition duration-300 group-hover:scale-[1.03]"
               sizes="(max-width: 640px) 50vw, 360px"
             />
+          )}
+          {onOffer && (
+            <span className="absolute right-2 top-2 rounded-full bg-amber-400 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-neutral-900">
+              {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
+            </span>
           )}
           {!product.inStock && (
             <span className="absolute left-2 top-2 rounded-full bg-neutral-900 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
@@ -89,9 +103,20 @@ export default function ProductCard({product}: {product: Product}) {
           <p className="text-[11px] text-neutral-400">
             {t.code}: {product.code}
           </p>
-          <p className="mt-0.5 text-base font-bold text-neutral-900 sm:text-lg">
-            LKR {product.price.toLocaleString()}
-          </p>
+          {onOffer ? (
+            <p className="mt-0.5 flex items-baseline gap-1.5">
+              <span className="text-base font-bold text-amber-600 sm:text-lg">
+                LKR {finalPrice.toLocaleString()}
+              </span>
+              <span className="text-xs text-neutral-400 line-through">
+                {product.price.toLocaleString()}
+              </span>
+            </p>
+          ) : (
+            <p className="mt-0.5 text-base font-bold text-neutral-900 sm:text-lg">
+              LKR {product.price.toLocaleString()}
+            </p>
+          )}
         </div>
       </Link>
 

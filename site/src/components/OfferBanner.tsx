@@ -1,37 +1,32 @@
 'use client'
 
 import {useLanguage} from './LanguageProvider'
+import type {ActiveOffer} from '@/sanity'
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''
-
-export default function OfferBanner({
-  bannerEn,
-  bannerSi,
-}: {
-  bannerEn?: string
-  bannerSi?: string
-}) {
+export default function OfferBanner({offer}: {offer: ActiveOffer | null}) {
   const {t, lang} = useLanguage()
-  const text = lang === 'si' && bannerSi ? bannerSi : bannerEn
 
-  if (!text) return null
+  if (!offer) return null
 
-  const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
+  const title = lang === 'si' && offer.titleSi ? offer.titleSi : offer.title
+  const text = lang === 'si' && offer.bannerTextSi ? offer.bannerTextSi : offer.bannerTextEn
 
   return (
     <a
-      href={waLink}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="#catalog"
       className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl bg-neutral-900 px-4 py-3 text-white sm:px-6 sm:py-4"
     >
-      <span className="flex items-center gap-2 text-xs font-semibold sm:text-sm">
+      <span className="flex min-w-0 items-center gap-2 text-xs font-semibold sm:text-sm">
         <span className="text-amber-400">●</span>
-        {text}
+        <span className="truncate">
+          <strong>{title}</strong> — {text}
+        </span>
       </span>
-      <span className="shrink-0 whitespace-nowrap text-xs font-semibold text-amber-400 sm:text-sm">
-        {t.inquireButton} →
-      </span>
+      {offer.discountPercent ? (
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold text-neutral-900">
+          {t.offPercent(offer.discountPercent)}
+        </span>
+      ) : null}
     </a>
   )
 }
