@@ -7,9 +7,15 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Product Name',
+      title: 'Product Name (English)',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'nameSi',
+      title: 'Product Name (Sinhala)',
+      type: 'string',
+      description: 'Optional. Shown when a customer views the site in Sinhala. Falls back to the English name if left blank.',
     }),
     defineField({
       name: 'code',
@@ -36,6 +42,22 @@ export default defineType({
       title: 'In Stock',
       type: 'boolean',
       initialValue: true,
+    }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{type: 'category'}],
+      description: 'Men / Women / Kids — add new categories under "Category" in the sidebar.',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'productType',
+      title: 'Type',
+      type: 'reference',
+      to: [{type: 'productType'}],
+      description: 'Casual / Office / Sports etc. — add new types under "Type" in the sidebar.',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'order',
