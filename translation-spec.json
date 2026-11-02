@@ -1,0 +1,69 @@
+{
+  "page": {"width_mm": 210, "height_mm": 297, "margins_mm": {"top": 20, "bottom": 20, "left": 20, "right": 20}},
+  "styles": [],
+  "blocks": [
+    {"type": "heading", "level": 1, "text": "Beto Shoes — Sinhala Translation Review"},
+    {"type": "paragraph", "text": "Purpose: the Sinhala wording below was drafted by AI as a first pass for a shoe catalog website (menu labels, buttons, and a WhatsApp inquiry message). Please review each row and write your corrected Sinhala in the \"Translator's Correction\" column. Leave it blank if the current wording is already correct."},
+    {"type": "paragraph", "text": "Notes:"},
+    {"type": "bullet_list", "items": [
+      "Keep the tone friendly and simple — this is for everyday customers buying shoes via WhatsApp, not formal/legal text.",
+      "In the WhatsApp message template, keep {name}, {code} and {price} exactly as written — these are placeholders the website fills in automatically with the real product name, code, and price.",
+      "\"රු.\" is being used as a short form for Sri Lankan Rupees (LKR) — change it if you prefer a different convention.",
+      "Section 3 (Category names) and Section 4 (Type names) are simple one or two word labels shown as small tags/filters on the site."
+    ]},
+    {"type": "page_break"},
+
+    {"type": "heading", "level": 2, "text": "1. UI Labels & Messages"},
+    {"type": "table", "style": "Table Grid", "header": ["#", "English", "Current Sinhala (AI draft)", "Translator's Correction"], "rows": [
+      ["1", "Beto (site title)", "Beto", ""],
+      ["2", "Browse our shoes below and tap \"Inquire on WhatsApp\" to order.", "අපගේ සපත්තු එකතුව පහතින් බලන්න. නියම කරගැනීමට 'WhatsApp මගින් විමසන්න' බොත්තම ඔබන්න.", ""],
+      ["3", "Inquire on WhatsApp (button text)", "WhatsApp මගින් විමසන්න", ""],
+      ["4", "Category (filter label)", "කාණ්ඩය", ""],
+      ["5", "Type (filter label)", "වර්ගය", ""],
+      ["6", "Min price (filter label)", "අවම මිල", ""],
+      ["7", "Max price (filter label)", "උපරිම මිල", ""],
+      ["8", "In stock only (checkbox label)", "තොගයේ ඇති පමණක්", ""],
+      ["9", "Clear filters (button)", "පෙරහන් ඉවත් කරන්න", ""],
+      ["10", "Out of stock (badge on product photo)", "තොගයේ නැත", ""],
+      ["11", "No products yet — check back soon!", "තවම නිෂ්පාදන නැත — නැවත පරීක්ෂා කරන්න!", ""],
+      ["12", "No products match these filters.", "මෙම පෙරහන් වලට ගැළපෙන නිෂ්පාදන නැත.", ""],
+      ["13", "Code: (label before product code)", "කේතය:", ""],
+      ["14", "All prices in LKR. (footer text)", "සියලුම මිල ගණන් රු. (LKR) වලින්.", ""],
+      ["15", "All (dropdown option meaning \"show everything\")", "සියල්ල", ""],
+      ["16", "Showing {count} of {total} products", "නිෂ්පාදන {total} න් {count} ක් පෙන්වමින්", ""],
+      ["17", "Choose your language (first-visit screen title)", "ඔබගේ භාෂාව තෝරන්න", ""]
+    ]},
+    {"type": "page_break"},
+
+    {"type": "heading", "level": 2, "text": "2. WhatsApp Message Template"},
+    {"type": "paragraph", "text": "This is the message that opens in WhatsApp when a customer taps \"Inquire on WhatsApp\" on a product. {name}, {code}, {price} are placeholders — keep them exactly as shown, anywhere in the sentence."},
+    {"type": "table", "style": "Table Grid", "header": ["#", "English", "Current Sinhala (AI draft)", "Translator's Correction"], "rows": [
+      ["18", "Hi! I'm interested in *{name}* (Code: {code}), priced at LKR {price}. Is it available?", "ආයුබෝවන්! මට *{name}* (කේතය: {code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. {price}. මේක දැනට තියෙනවද?", ""]
+    ]},
+    {"type": "page_break"},
+
+    {"type": "heading", "level": 2, "text": "3. Category Names (Men / Women / Kids)"},
+    {"type": "table", "style": "Table Grid", "header": ["#", "English", "Current Sinhala (AI draft)", "Translator's Correction"], "rows": [
+      ["19", "Men", "පිරිමි", ""],
+      ["20", "Women", "කාන්තා", ""],
+      ["21", "Kids", "ළමයි", ""]
+    ]},
+
+    {"type": "heading", "level": 2, "text": "4. Type Names (Casual / Office / Sports / etc.)"},
+    {"type": "table", "style": "Table Grid", "header": ["#", "English", "Current Sinhala (AI draft)", "Translator's Correction"], "rows": [
+      ["22", "Casual", "අනියම්", ""],
+      ["23", "Office / Formal", "කාර්යාල", ""],
+      ["24", "Sports", "ක්‍රීඩා", ""],
+      ["25", "Sneakers", "ස්නීකර්ස්", ""],
+      ["26", "Sandals", "සැන්ඩල්", ""],
+      ["27", "Boots", "බූට්ස්", ""]
+    ]},
+
+    {"type": "heading", "level": 2, "text": "5. Demo Product Names (sample data, optional)"},
+    {"type": "paragraph", "text": "These two are placeholder/demo products used while building the site and will likely be deleted before launch — included here only for completeness."},
+    {"type": "table", "style": "Table Grid", "header": ["#", "English", "Current Sinhala (AI draft)", "Translator's Correction"], "rows": [
+      ["28", "Classic Runner", "සාමාන්‍ය ධාවන සපත්තුව", ""],
+      ["29", "Trail Sprinter", "මාර්ග ධාවන සපත්තුව", ""]
+    ]}
+  ]
+}

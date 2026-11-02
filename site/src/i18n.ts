@@ -21,6 +21,10 @@ export type Dict = {
   chooseLanguage: string
   languageNameEn: string
   languageNameSi: string
+  moreFilters: string
+  priceRange: string
+  done: string
+  filtersActive: (count: number) => string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -46,6 +50,10 @@ export const dict: Record<Lang, Dict> = {
     chooseLanguage: 'Choose your language',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',
+    moreFilters: 'Price & stock',
+    priceRange: 'Price range',
+    done: 'Done',
+    filtersActive: (count) => `${count} active`,
   },
   si: {
     siteTitle: 'Beto',
@@ -69,5 +77,9 @@ export const dict: Record<Lang, Dict> = {
     chooseLanguage: 'ඔබගේ භාෂාව තෝරන්න',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',
+    moreFilters: 'මිල සහ තොගය',
+    priceRange: 'මිල පරාසය',
+    done: 'සම්පූර්ණයි',
+    filtersActive: (count) => `${count} ක් යොදා ඇත`,
   },
 }
