@@ -1,14 +1,28 @@
 'use client'
 
-import {useMemo, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import ProductCard from '@/components/ProductCard'
 import {localized, type ActiveOffer, type Product, type Taxonomy} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import FilterPills from './FilterPills'
 import FilterSheet from './FilterSheet'
+import Pagination from './Pagination'
 
 const ALL = 'all'
 type SortKey = 'newest' | 'price-asc' | 'price-desc'
+
+/** 12 per page on desktop/tablet, 10 on mobile (matches the sm: breakpoint at 640px). */
+function usePageSize() {
+  const [size, setSize] = useState(10)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 640px)')
+    const update = () => setSize(mq.matches ? 12 : 10)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+  return size
+}
 
 export default function CatalogClient({
   products,
@@ -35,6 +49,12 @@ export default function CatalogClient({
   const [maxPriceFilter, setMaxPriceFilter] = useState(maxPrice)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [sort, setSort] = useState<SortKey>('newest')
+  const [page, setPage] = useState(1)
+  const pageSize = usePageSize()
+
+  useEffect(() => {
+    setPage(1)
+  }, [category, type, inStockOnly, minPrice, maxPriceFilter, sort, pageSize])
 
   if (products.length === 0) {
     return <p className="text-center text-neutral-500">{t.noProductsYet}</p>
@@ -54,6 +74,10 @@ export default function CatalogClient({
       if (sort === 'price-desc') return b.price - a.price
       return 0 // 'newest' — keep server order (already newest-first)
     })
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize))
+  const safePage = Math.min(page, pageCount)
+  const paged = filtered.slice((safePage - 1) * pageSize, safePage * pageSize)
 
   function resetFilters() {
     setCategory(ALL)
@@ -158,6 +182,11 @@ export default function CatalogClient({
               </button>
             )}
             <span className="whitespace-nowrap">{t.showing(filtered.length, products.length)}</span>
+            {pageCount > 1 && (
+              <span className="whitespace-nowrap">
+                · {t.pageLabel(safePage, pageCount)}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -177,11 +206,21 @@ export default function CatalogClient({
       {filtered.length === 0 ? (
         <p className="py-12 text-center text-neutral-500">{t.noProductsMatch}</p>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {filtered.map((product) => (
-            <ProductCard key={product._id} product={product} offer={offer} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {paged.map((product) => (
+              <ProductCard key={product._id} product={product} offer={offer} />
+            ))}
+          </div>
+          <Pagination
+            page={safePage}
+            pageCount={pageCount}
+            onChange={(p) => {
+              setPage(p)
+              window.scrollTo({top: 0, behavior: 'smooth'})
+            }}
+          />
+        </>
       )}
     </div>
   )

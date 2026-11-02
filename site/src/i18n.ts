@@ -59,6 +59,7 @@ export type Dict = {
   offerBadge: string
   msrp: string
   offerPrice: string
+  pageLabel: (page: number, total: number) => string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -117,6 +118,7 @@ export const dict: Record<Lang, Dict> = {
     offerBadge: 'Offer',
     msrp: 'MSRP',
     offerPrice: 'Offer price',
+    pageLabel: (page, total) => `Page ${page} of ${total}`,
   },
   si: {
     siteTitle: 'Beto',
@@ -173,5 +175,6 @@ export const dict: Record<Lang, Dict> = {
     offerBadge: 'දීමනාව',
     msrp: 'සාමාන්‍ය මිල',
     offerPrice: 'දීමනා මිල',
+    pageLabel: (page, total) => `පිටුව ${page} / ${total}`,
   },
 }

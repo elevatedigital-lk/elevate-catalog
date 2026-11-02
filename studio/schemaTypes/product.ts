@@ -18,19 +18,26 @@ export default defineType({
       description: 'Optional. Shown when a customer views the site in Sinhala. Falls back to the English name if left blank.',
     }),
     defineField({
-      name: 'slug',
-      title: 'URL Slug',
-      type: 'slug',
-      description: 'Used in the product page link. Click "Generate" to create it from the product name (or type the product code first if there\'s no name yet).',
-      options: {source: 'name', maxLength: 96},
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'code',
       title: 'Product Code',
       type: 'string',
-      description: 'Short code customers will quote on WhatsApp, e.g. BT-101',
-      validation: (Rule) => Rule.required(),
+      description:
+        'The primary ID for this product — used in the shareable URL (e.g. beto-shoes.vercel.app/product/BT-101) and quoted on WhatsApp. Letters, numbers and hyphens only, must be unique.',
+      validation: (Rule) =>
+        Rule.required()
+          .regex(/^[A-Za-z0-9-]+$/, {name: 'code format', invert: false})
+          .error('Use only letters, numbers and hyphens (e.g. BT-101) — no spaces or symbols.')
+          .custom(async (code, context) => {
+            if (!code) return true
+            const {document, getClient} = context
+            const client = getClient({apiVersion: '2024-01-01'})
+            const id = document?._id?.replace(/^drafts\./, '')
+            const duplicate = await client.fetch(
+              `count(*[_type == "product" && lower(code) == lower($code) && !(_id in [$id, "drafts." + $id])])`,
+              {code, id},
+            )
+            return duplicate > 0 ? 'This product code is already used by another product.' : true
+          }),
     }),
     defineField({
       name: 'price',

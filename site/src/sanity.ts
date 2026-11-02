@@ -59,7 +59,6 @@ export type Product = {
   _id: string
   name?: string
   nameSi?: string
-  slug: string
   code: string
   price: number
   images: SanityImageSource[]
@@ -93,7 +92,7 @@ export type ActiveOffer = {
 }
 
 const productProjection = `
-  _id, name, nameSi, "slug": slug.current, code, price, images, inStock,
+  _id, name, nameSi, code, price, images, inStock,
   category->{_id, name, nameSi},
   productType->{_id, name, nameSi},
   description, descriptionSi, colors, sizes, sizeChartImage, sizeChartTable
@@ -105,10 +104,10 @@ export async function getProducts(): Promise<Product[]> {
   )
 }
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
+export async function getProductByCode(code: string): Promise<Product | null> {
   return client.fetch(
-    `*[_type == "product" && slug.current == $slug][0]{${productProjection}}`,
-    {slug},
+    `*[_type == "product" && lower(code) == lower($code)][0]{${productProjection}}`,
+    {code},
   )
 }
 

@@ -24,12 +24,12 @@ export default async function Home() {
       <Hero />
 
       {offer && (
-        <div className="mx-auto max-w-5xl px-4 pt-5">
+        <div className="mx-auto max-w-5xl px-4 pt-4">
           <OfferBanner offer={offer} />
         </div>
       )}
 
-      <section id="catalog" className="mx-auto max-w-5xl scroll-mt-20 px-4 py-8">
+      <section id="catalog" className="mx-auto max-w-5xl scroll-mt-20 px-4 py-6">
         <CatalogClient products={products} categories={categories} types={types} offer={offer} />
       </section>
 

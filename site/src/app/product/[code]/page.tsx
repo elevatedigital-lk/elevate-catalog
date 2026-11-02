@@ -1,5 +1,5 @@
 import {notFound} from 'next/navigation'
-import {getProductBySlug, getSiteSettings, getActiveOffer} from '@/sanity'
+import {getProductByCode, getSiteSettings, getActiveOffer} from '@/sanity'
 import ProductDetailClient from '@/components/ProductDetailClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
@@ -10,11 +10,11 @@ export const dynamic = 'force-dynamic'
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{slug: string}>
+  params: Promise<{code: string}>
 }) {
-  const {slug} = await params
+  const {code} = await params
   const [product, settings, offer] = await Promise.all([
-    getProductBySlug(slug),
+    getProductByCode(decodeURIComponent(code)),
     getSiteSettings(),
     getActiveOffer(),
   ])

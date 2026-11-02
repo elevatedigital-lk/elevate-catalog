@@ -49,7 +49,7 @@ export default function ProductCard({
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition hover:shadow-[0_8px_20px_rgba(0,0,0,0.08)]">
-      <Link href={`/product/${product.slug}`} className="contents">
+      <Link href={`/product/${encodeURIComponent(product.code)}`} className="contents">
         <div className="relative aspect-square w-full bg-neutral-100">
           {images[index] && (
             <Image
