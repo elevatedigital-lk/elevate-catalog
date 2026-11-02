@@ -3,7 +3,14 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {compressedUrl, discountedPrice, localized, type ActiveOffer, type Product} from '@/sanity'
+import {
+  compressedUrl,
+  discountedPrice,
+  localized,
+  productDisplayName,
+  type ActiveOffer,
+  type Product,
+} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import WhatsAppButton from './WhatsAppButton'
 
@@ -21,7 +28,7 @@ export default function ProductCard({
   const images = product.images || []
   const hasMultiple = images.length > 1
 
-  const displayName = lang === 'si' && product.nameSi ? product.nameSi : product.name
+  const displayName = productDisplayName(product, lang ?? 'en')
 
   const onOffer = !!offer && offer.productIds.includes(product._id)
   const finalPrice = onOffer ? discountedPrice(product.price, offer!.discountPercent) : product.price
@@ -100,18 +107,22 @@ export default function ProductCard({
           <h3 className="truncate text-sm font-semibold text-neutral-900 sm:text-base">
             {displayName}
           </h3>
-          <p className="text-[11px] text-neutral-400">
-            {t.code}: {product.code}
-          </p>
-          {onOffer ? (
-            <p className="mt-0.5 flex items-baseline gap-1.5">
-              <span className="text-base font-bold text-amber-600 sm:text-lg">
-                LKR {finalPrice.toLocaleString()}
-              </span>
-              <span className="text-xs text-neutral-400 line-through">
-                {product.price.toLocaleString()}
-              </span>
+          {product.name && (
+            <p className="text-[11px] text-neutral-400">
+              {t.code}: {product.code}
             </p>
+          )}
+          {onOffer ? (
+            <div className="mt-0.5">
+              <p className="flex items-baseline gap-1.5">
+                <span className="text-base font-bold text-amber-600 sm:text-lg">
+                  LKR {finalPrice.toLocaleString()}
+                </span>
+              </p>
+              <p className="text-[11px] text-neutral-400">
+                {t.msrp}: <span className="line-through">{product.price.toLocaleString()}</span>
+              </p>
+            </div>
           ) : (
             <p className="mt-0.5 text-base font-bold text-neutral-900 sm:text-lg">
               LKR {product.price.toLocaleString()}

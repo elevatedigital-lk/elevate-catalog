@@ -76,8 +76,11 @@ export default function FilterSheet({
 
         <button
           onClick={onClose}
-          className="w-full rounded-xl bg-neutral-900 py-3 text-sm font-semibold text-white"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-900 py-3 text-sm font-semibold text-white"
         >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
           {t.done}
         </button>
       </div>

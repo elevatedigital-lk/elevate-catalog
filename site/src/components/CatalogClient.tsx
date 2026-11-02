@@ -74,8 +74,41 @@ export default function CatalogClient({
     <div>
       <div className="sticky top-0 z-30 -mx-4 mb-5 border-b border-black/5 bg-neutral-50/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:rounded-2xl sm:border sm:border-black/10 sm:bg-white sm:p-4 sm:shadow-sm">
         <div className="flex flex-col gap-2.5">
-          <FilterPills items={categoryItems} activeId={category} onSelect={setCategory} allLabel={t.all} />
-          <FilterPills items={typeItems} activeId={type} onSelect={setType} allLabel={t.all} />
+          {/* Mobile: compact dropdown selects (easy one-handed tap-to-pick) */}
+          <div className="flex gap-2 sm:hidden">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="min-h-[40px] flex-1 rounded-lg border border-black/10 bg-white px-2.5 text-sm font-medium text-neutral-700"
+              aria-label={t.category}
+            >
+              <option value={ALL}>{t.category}: {t.all}</option>
+              {categoryItems.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="min-h-[40px] flex-1 rounded-lg border border-black/10 bg-white px-2.5 text-sm font-medium text-neutral-700"
+              aria-label={t.type}
+            >
+              <option value={ALL}>{t.type}: {t.all}</option>
+              {typeItems.map((ty) => (
+                <option key={ty._id} value={ty._id}>
+                  {ty.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Desktop/tablet: pill rows (more visual, room to spare) */}
+          <div className="hidden flex-col gap-2.5 sm:flex">
+            <FilterPills items={categoryItems} activeId={category} onSelect={setCategory} allLabel={t.all} />
+            <FilterPills items={typeItems} activeId={type} onSelect={setType} allLabel={t.all} />
+          </div>
 
           <div className="flex items-center gap-2 pt-0.5">
             <button
@@ -95,24 +128,32 @@ export default function CatalogClient({
               )}
             </button>
 
-            <select
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortKey)}
-              className="ml-auto shrink-0 rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-medium text-neutral-600"
-              aria-label={t.sortBy}
-            >
-              <option value="newest">{t.sortNewest}</option>
-              <option value="price-asc">{t.sortPriceLow}</option>
-              <option value="price-desc">{t.sortPriceHigh}</option>
-            </select>
+            <div className="ml-auto flex shrink-0 items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-neutral-500">
+                <path d="M3 7h10M3 12h7M3 17h4M17 4v16m0 0l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value as SortKey)}
+                className="bg-transparent text-xs font-medium text-neutral-600"
+                aria-label={t.sortBy}
+              >
+                <option value="newest">{t.sortNewest}</option>
+                <option value="price-asc">{t.sortPriceLow}</option>
+                <option value="price-desc">{t.sortPriceHigh}</option>
+              </select>
+            </div>
           </div>
 
           <div className="flex items-center gap-3 text-xs text-neutral-400">
             {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="font-medium text-neutral-500 underline-offset-2 hover:underline"
+                className="inline-flex items-center gap-1 font-medium text-neutral-500 hover:underline"
               >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
                 {t.clearFilters}
               </button>
             )}

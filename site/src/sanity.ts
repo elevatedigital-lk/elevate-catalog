@@ -57,7 +57,7 @@ export type SizeChartRow = {
 
 export type Product = {
   _id: string
-  name: string
+  name?: string
   nameSi?: string
   slug: string
   code: string
@@ -181,4 +181,11 @@ export function localized(
   if (!item) return ''
   if (lang === 'si' && item.nameSi) return item.nameSi
   return item.name
+}
+
+/** Product display name, falling back to its code when no name was set. */
+export function productDisplayName(product: Product, lang: 'en' | 'si'): string {
+  if (lang === 'si' && product.nameSi) return product.nameSi
+  if (product.name) return product.name
+  return `#${product.code}`
 }

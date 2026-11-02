@@ -3,9 +3,17 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {compressedUrl, urlFor, localized, discountedPrice, type ActiveOffer, type Product} from '@/sanity'
+import {
+  compressedUrl,
+  localized,
+  discountedPrice,
+  productDisplayName,
+  type ActiveOffer,
+  type Product,
+} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import WhatsAppButton from './WhatsAppButton'
+import SizeChartAccordion from './SizeChartAccordion'
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''
 
@@ -26,7 +34,7 @@ export default function ProductDetailClient({
   const onOffer = !!offer && offer.productIds.includes(product._id)
   const finalPrice = onOffer ? discountedPrice(product.price, offer!.discountPercent) : product.price
 
-  const displayName = lang === 'si' && product.nameSi ? product.nameSi : product.name
+  const displayName = productDisplayName(product, lang ?? 'en')
   const displayDescription =
     lang === 'si' && product.descriptionSi ? product.descriptionSi : product.description
 
@@ -67,7 +75,10 @@ export default function ProductDetailClient({
         href="/"
         className="mb-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm active:scale-[0.97]"
       >
-        <span aria-hidden>←</span> {t.backToCatalog.replace('← ', '')}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        {t.backToCatalog.replace('← ', '')}
       </Link>
 
       <div className="grid gap-6 sm:grid-cols-2">
@@ -132,25 +143,45 @@ export default function ProductDetailClient({
           </div>
 
           <h1 className="text-2xl font-bold text-neutral-900">{displayName}</h1>
-          <p className="mt-1 text-sm uppercase tracking-wide text-neutral-500">
-            {t.code}: {product.code}
-          </p>
-          <p className="mt-3 text-2xl font-bold text-neutral-900">
+          {product.name && (
+            <p className="mt-1 text-sm uppercase tracking-wide text-neutral-500">
+              {t.code}: {product.code}
+            </p>
+          )}
+
+          <div className="mt-3">
             {onOffer ? (
-              <span className="flex items-baseline gap-2">
-                <span className="text-amber-600">LKR {finalPrice.toLocaleString()}</span>
-                <span className="text-base text-neutral-400 line-through">
-                  {product.price.toLocaleString()}
-                </span>
-              </span>
+              <>
+                <p className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold text-amber-600">
+                    LKR {finalPrice.toLocaleString()}
+                  </span>
+                </p>
+                <p className="mt-0.5 text-sm text-neutral-500">
+                  {t.msrp}:{' '}
+                  <span className="line-through">LKR {product.price.toLocaleString()}</span>
+                  <span className="ml-2 font-semibold text-amber-600">
+                    {offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge}
+                  </span>
+                </p>
+              </>
             ) : (
-              <>LKR {product.price.toLocaleString()}</>
+              <p className="text-2xl font-bold text-neutral-900">
+                LKR {product.price.toLocaleString()}
+              </p>
             )}
-          </p>
+          </div>
 
           {needsColor && (
             <div className="mt-5">
-              <h2 className="mb-2 text-sm font-semibold text-neutral-900">
+              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor" />
+                  <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor" />
+                  <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor" />
+                  <circle cx="6.5" cy="12.5" r="0.5" fill="currentColor" />
+                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
                 {t.color}
                 {selectedColor ? `: ${colorLabel}` : ''}
               </h2>
@@ -190,7 +221,11 @@ export default function ProductDetailClient({
 
           {needsSize && (
             <div className="mt-5">
-              <h2 className="mb-2 text-sm font-semibold text-neutral-900">
+              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="7" width="20" height="10" rx="1.5" />
+                  <path d="M6 7v3M10 7v3M14 7v3M18 7v3" strokeLinecap="round" />
+                </svg>
                 {t.size}
                 {selectedSize ? `: ${selectedSize}` : ''}
               </h2>
@@ -236,51 +271,18 @@ export default function ProductDetailClient({
 
           {displayDescription && (
             <div className="mt-6">
-              <h2 className="mb-1 text-sm font-semibold text-neutral-900">{t.description}</h2>
+              <h2 className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 2h9l5 5v15H6V2z" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15 2v5h5M9 13h6M9 17h6" strokeLinecap="round" />
+                </svg>
+                {t.description}
+              </h2>
               <p className="whitespace-pre-line text-sm text-neutral-600">{displayDescription}</p>
             </div>
           )}
 
-          {product.sizeChartTable && product.sizeChartTable.length > 0 && (
-            <div className="mt-6">
-              <h2 className="mb-2 text-sm font-semibold text-neutral-900">{t.sizeChart}</h2>
-              <div className="overflow-hidden rounded-xl border border-black/10">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
-                      <th className="px-3 py-2 font-medium">{t.size}</th>
-                      <th className="px-3 py-2 font-medium">cm</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {product.sizeChartTable.map((row) => (
-                      <tr key={row.size} className="border-t border-black/5">
-                        <td className="px-3 py-2 font-medium text-neutral-800">{row.size}</td>
-                        <td className="px-3 py-2 text-neutral-600">{row.measurementCm}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {product.sizeChartImage && (
-            <div className="mt-6">
-              {(!product.sizeChartTable || product.sizeChartTable.length === 0) && (
-                <h2 className="mb-2 text-sm font-semibold text-neutral-900">{t.sizeChart}</h2>
-              )}
-              <div className="relative aspect-[4/3] w-full max-w-sm overflow-hidden rounded-xl border border-black/10">
-                <Image
-                  src={urlFor(product.sizeChartImage).width(800).url()}
-                  alt={t.sizeChart}
-                  fill
-                  className="bg-white object-contain"
-                  sizes="(max-width: 640px) 100vw, 384px"
-                />
-              </div>
-            </div>
-          )}
+          <SizeChartAccordion table={product.sizeChartTable} image={product.sizeChartImage} />
         </div>
       </div>
 

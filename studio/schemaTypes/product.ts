@@ -9,7 +9,7 @@ export default defineType({
       name: 'name',
       title: 'Product Name (English)',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      description: 'Optional. If left blank, the product code is shown instead.',
     }),
     defineField({
       name: 'nameSi',
@@ -21,7 +21,7 @@ export default defineType({
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
-      description: 'Used in the product page link. Click "Generate" to create it from the product name.',
+      description: 'Used in the product page link. Click "Generate" to create it from the product name (or type the product code first if there\'s no name yet).',
       options: {source: 'name', maxLength: 96},
       validation: (Rule) => Rule.required(),
     }),
@@ -57,16 +57,14 @@ export default defineType({
       title: 'Category',
       type: 'reference',
       to: [{type: 'category'}],
-      description: 'Men / Women / Kids — add new categories under "Category" in the sidebar.',
-      validation: (Rule) => Rule.required(),
+      description: 'Optional. Men / Women / Kids — add new categories under "Category" in the sidebar.',
     }),
     defineField({
       name: 'productType',
       title: 'Type',
       type: 'reference',
       to: [{type: 'productType'}],
-      description: 'Casual / Office / Sports etc. — add new types under "Type" in the sidebar.',
-      validation: (Rule) => Rule.required(),
+      description: 'Optional. Casual / Office / Sports etc. — add new types under "Type" in the sidebar.',
     }),
     defineField({
       name: 'description',
@@ -171,8 +169,12 @@ export default defineType({
   preview: {
     select: {
       title: 'name',
+      code: 'code',
       subtitle: 'code',
       media: 'images.0',
+    },
+    prepare({title, code, media}) {
+      return {title: title || `#${code}`, subtitle: code, media}
     },
   },
 })
