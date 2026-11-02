@@ -43,7 +43,8 @@ export default defineType({
       title: 'Product Images',
       type: 'array',
       of: [{type: 'image', options: {hotspot: true}}],
-      validation: (Rule) => Rule.required().min(1).max(5).error('Add between 1 and 5 images'),
+      description: 'Use 2–3 clear photos. Keep file sizes small (phone camera photos are fine) — the site compresses them automatically, but fewer photos means a faster-loading page for customers.',
+      validation: (Rule) => Rule.required().min(1).max(3).error('Add between 1 and 3 images'),
     }),
     defineField({
       name: 'inStock',
@@ -82,16 +83,83 @@ export default defineType({
       description: 'Optional. Falls back to the English description if left blank.',
     }),
     defineField({
-      name: 'availableSizes',
-      title: 'Available Sizes',
-      type: 'string',
-      description: 'Optional. Comma-separated, e.g. 38, 39, 40, 41, 42, 43, 44',
+      name: 'colors',
+      title: 'Colors',
+      type: 'array',
+      description: 'Customers must pick one of these before inquiring. Add as many as you offer; toggle "In Stock" off to disable a color without deleting it.',
+      of: [
+        {
+          type: 'object',
+          name: 'colorOption',
+          fields: [
+            defineField({name: 'name', title: 'Color Name (English)', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({name: 'nameSi', title: 'Color Name (Sinhala)', type: 'string', description: 'Optional, falls back to English.'}),
+            defineField({
+              name: 'hex',
+              title: 'Swatch Color',
+              type: 'string',
+              description: 'Optional. A hex code for the little color dot, e.g. #1a1a1a for black, #8b4513 for brown.',
+            }),
+            defineField({name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true}),
+          ],
+          preview: {
+            select: {title: 'name', subtitle: 'inStock'},
+            prepare({title, subtitle}) {
+              return {title, subtitle: subtitle === false ? 'Out of stock' : 'In stock'}
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: 'sizes',
+      title: 'Sizes',
+      type: 'array',
+      description: 'Customers must pick one of these before inquiring. Toggle "In Stock" off to disable a size without deleting it.',
+      of: [
+        {
+          type: 'object',
+          name: 'sizeOption',
+          fields: [
+            defineField({name: 'size', title: 'Size', type: 'string', description: 'e.g. 40, 41, 42 or S / M / L', validation: (Rule) => Rule.required()}),
+            defineField({name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true}),
+          ],
+          preview: {
+            select: {title: 'size', subtitle: 'inStock'},
+            prepare({title, subtitle}) {
+              return {title, subtitle: subtitle === false ? 'Out of stock' : 'In stock'}
+            },
+          },
+        },
+      ],
     }),
     defineField({
       name: 'sizeChartImage',
       title: 'Size Chart Image',
       type: 'image',
       description: 'Optional. Upload a size chart photo/diagram to show on the product page.',
+    }),
+    defineField({
+      name: 'sizeChartTable',
+      title: 'Size Chart Table (text)',
+      type: 'array',
+      description: 'Optional. A simple text table shown alongside (or instead of) the image — e.g. Size 40 → 25.5 cm.',
+      of: [
+        {
+          type: 'object',
+          name: 'sizeChartRow',
+          fields: [
+            defineField({name: 'size', title: 'Size', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({name: 'measurementCm', title: 'Foot Length (cm)', type: 'string', validation: (Rule) => Rule.required()}),
+          ],
+          preview: {
+            select: {size: 'size', measurementCm: 'measurementCm'},
+            prepare({size, measurementCm}) {
+              return {title: `Size ${size}`, subtitle: `${measurementCm} cm`}
+            },
+          },
+        },
+      ],
     }),
     defineField({
       name: 'order',

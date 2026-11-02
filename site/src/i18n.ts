@@ -18,6 +18,13 @@ export type Dict = {
   all: string
   showing: (count: number, total: number) => string
   whatsappMessage: (name: string, code: string, price: string) => string
+  whatsappMessageDetailed: (
+    name: string,
+    code: string,
+    price: string,
+    color: string,
+    size: string,
+  ) => string
   chooseLanguage: string
   languageNameEn: string
   languageNameSi: string
@@ -34,6 +41,14 @@ export type Dict = {
   orderPolicy: string
   stepsToOrder: string
   homeLink: string
+  color: string
+  size: string
+  selectColor: string
+  selectSize: string
+  selectBothToInquire: string
+  nudgeTitle: string
+  nudgeBody: string
+  nudgeDismiss: string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -56,6 +71,8 @@ export const dict: Record<Lang, Dict> = {
     showing: (count, total) => `Showing ${count} of ${total} products`,
     whatsappMessage: (name, code, price) =>
       `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. Is it available?`,
+    whatsappMessageDetailed: (name, code, price, color, size) =>
+      `Hi! I'm interested in *${name}* (Code: ${code}), priced at LKR ${price}. Color: ${color}, Size: ${size}. Is it available?`,
     chooseLanguage: 'Choose your language',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',
@@ -72,6 +89,14 @@ export const dict: Record<Lang, Dict> = {
     orderPolicy: 'Good to know',
     stepsToOrder: 'Steps to order',
     homeLink: 'Catalog',
+    color: 'Color',
+    size: 'Size',
+    selectColor: 'Select a color',
+    selectSize: 'Select a size',
+    selectBothToInquire: 'Please select a color and size to inquire',
+    nudgeTitle: 'New here?',
+    nudgeBody: 'See how ordering works in a few quick steps.',
+    nudgeDismiss: 'Close',
   },
   si: {
     siteTitle: 'Beto',
@@ -92,6 +117,8 @@ export const dict: Record<Lang, Dict> = {
     showing: (count, total) => `නිෂ්පාදන ${total} න් ${count} ක් පෙන්වමින්`,
     whatsappMessage: (name, code, price) =>
       `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. මේක දැනට තියෙනවද?`,
+    whatsappMessageDetailed: (name, code, price, color, size) =>
+      `ආයුබෝවන්! මට *${name}* (කේතය: ${code}) ගැන උනන්දුවක් තියෙනවා. මිල: රු. ${price}. වර්ණය: ${color}, සයිස් එක: ${size}. මේක දැනට තියෙනවද?`,
     chooseLanguage: 'ඔබගේ භාෂාව තෝරන්න',
     languageNameEn: 'English',
     languageNameSi: 'සිංහල',
@@ -108,5 +135,13 @@ export const dict: Record<Lang, Dict> = {
     orderPolicy: 'දැනගත යුතු දේ',
     stepsToOrder: 'ඇණවුම් කරන පියවර',
     homeLink: 'නිෂ්පාදන ලැයිස්තුව',
+    color: 'වර්ණය',
+    size: 'සයිස් එක',
+    selectColor: 'වර්ණයක් තෝරන්න',
+    selectSize: 'සයිස් එකක් තෝරන්න',
+    selectBothToInquire: 'විමසීමට පෙර වර්ණයක් සහ සයිස් එකක් තෝරන්න',
+    nudgeTitle: 'අලුතින් පැමිණියෙක්ද?',
+    nudgeBody: 'ඇණවුම් කරන ආකාරය විනාඩියකින් බලන්න.',
+    nudgeDismiss: 'වසන්න',
   },
 }

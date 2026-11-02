@@ -3,7 +3,7 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {urlFor, localized, type Product} from '@/sanity'
+import {compressedUrl, urlFor, localized, type Product} from '@/sanity'
 import {useLanguage} from './LanguageProvider'
 import WhatsAppButton from './WhatsAppButton'
 
@@ -12,19 +12,53 @@ const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ''
 export default function ProductDetailClient({product}: {product: Product}) {
   const {t, lang} = useLanguage()
   const [index, setIndex] = useState(0)
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [showValidation, setShowValidation] = useState(false)
   const images = product.images || []
 
   const displayName = lang === 'si' && product.nameSi ? product.nameSi : product.name
   const displayDescription =
     lang === 'si' && product.descriptionSi ? product.descriptionSi : product.description
 
-  const message = t.whatsappMessage(displayName, product.code, product.price.toLocaleString())
+  const colors = product.colors || []
+  const sizes = product.sizes || []
+  const needsColor = colors.length > 0
+  const needsSize = sizes.length > 0
+  const colorOk = !needsColor || !!selectedColor
+  const sizeOk = !needsSize || !!selectedSize
+  const canInquire = colorOk && sizeOk
+
+  const selectedColorObj = colors.find((c) => c.name === selectedColor)
+  const colorLabel = selectedColorObj ? localized(selectedColorObj, lang ?? 'en') : ''
+  const sizeLabel = selectedSize || ''
+
+  const message =
+    needsColor || needsSize
+      ? t.whatsappMessageDetailed(
+          displayName,
+          product.code,
+          product.price.toLocaleString(),
+          colorLabel || '-',
+          sizeLabel || '-',
+        )
+      : t.whatsappMessage(displayName, product.code, product.price.toLocaleString())
   const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
+  function handleInquireClick(e: React.MouseEvent) {
+    if (!canInquire) {
+      e.preventDefault()
+      setShowValidation(true)
+    }
+  }
+
   return (
-    <div>
-      <Link href="/" className="mb-4 inline-block text-sm font-medium text-neutral-500 hover:text-neutral-900">
-        {t.backToCatalog}
+    <div className="pb-24 sm:pb-0">
+      <Link
+        href="/"
+        className="mb-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm active:scale-[0.97]"
+      >
+        <span aria-hidden>←</span> {t.backToCatalog.replace('← ', '')}
       </Link>
 
       <div className="grid gap-6 sm:grid-cols-2">
@@ -32,7 +66,7 @@ export default function ProductDetailClient({product}: {product: Product}) {
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-neutral-100">
             {images[index] && (
               <Image
-                src={urlFor(images[index]).width(900).height(900).fit('crop').url()}
+                src={compressedUrl(images[index], 700, {quality: 70})}
                 alt={displayName}
                 fill
                 className="object-cover"
@@ -57,7 +91,7 @@ export default function ProductDetailClient({product}: {product: Product}) {
                   }`}
                 >
                   <Image
-                    src={urlFor(img).width(120).height(120).fit('crop').url()}
+                    src={compressedUrl(img, 120)}
                     alt={`${displayName} ${i + 1}`}
                     fill
                     className="object-cover"
@@ -91,8 +125,90 @@ export default function ProductDetailClient({product}: {product: Product}) {
             LKR {product.price.toLocaleString()}
           </p>
 
-          <div className="mt-5">
-            <WhatsAppButton href={waLink} label={t.inquireButton} className="w-full sm:w-auto" />
+          {needsColor && (
+            <div className="mt-5">
+              <h2 className="mb-2 text-sm font-semibold text-neutral-900">
+                {t.color}
+                {selectedColor ? `: ${colorLabel}` : ''}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {colors.map((c) => {
+                  const active = selectedColor === c.name
+                  return (
+                    <button
+                      key={c.name}
+                      disabled={!c.inStock}
+                      onClick={() => {
+                        setSelectedColor(c.name)
+                        setShowValidation(false)
+                      }}
+                      title={c.inStock ? localized(c, lang ?? 'en') : `${localized(c, lang ?? 'en')} — ${t.outOfStock}`}
+                      className={`relative flex min-h-[44px] items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition ${
+                        !c.inStock
+                          ? 'cursor-not-allowed border-black/5 bg-neutral-50 text-neutral-300 line-through'
+                          : active
+                            ? 'border-neutral-900 bg-neutral-900 text-white'
+                            : 'border-black/10 bg-white text-neutral-700 active:bg-neutral-50'
+                      }`}
+                    >
+                      {c.hex && (
+                        <span
+                          className="h-4 w-4 shrink-0 rounded-full border border-black/10"
+                          style={{backgroundColor: c.hex}}
+                        />
+                      )}
+                      {localized(c, lang ?? 'en')}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {needsSize && (
+            <div className="mt-5">
+              <h2 className="mb-2 text-sm font-semibold text-neutral-900">
+                {t.size}
+                {selectedSize ? `: ${selectedSize}` : ''}
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {sizes.map((s) => {
+                  const active = selectedSize === s.size
+                  return (
+                    <button
+                      key={s.size}
+                      disabled={!s.inStock}
+                      onClick={() => {
+                        setSelectedSize(s.size)
+                        setShowValidation(false)
+                      }}
+                      title={!s.inStock ? t.outOfStock : undefined}
+                      className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border px-3 text-sm font-medium transition ${
+                        !s.inStock
+                          ? 'cursor-not-allowed border-black/5 bg-neutral-50 text-neutral-300 line-through'
+                          : active
+                            ? 'border-neutral-900 bg-neutral-900 text-white'
+                            : 'border-black/10 bg-white text-neutral-700 active:bg-neutral-50'
+                      }`}
+                    >
+                      {s.size}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {showValidation && !canInquire && (
+            <p className="mt-3 text-sm font-medium text-red-600">{t.selectBothToInquire}</p>
+          )}
+
+          <div className="mt-5 hidden sm:block">
+            <WhatsAppButton
+              href={canInquire ? waLink : '#'}
+              label={t.inquireButton}
+              className={!canInquire ? 'w-full cursor-pointer opacity-50 sm:w-auto' : 'w-full sm:w-auto'}
+            />
           </div>
 
           {displayDescription && (
@@ -102,37 +218,76 @@ export default function ProductDetailClient({product}: {product: Product}) {
             </div>
           )}
 
-          {product.availableSizes && (
-            <div className="mt-5">
-              <h2 className="mb-1 text-sm font-semibold text-neutral-900">{t.sizesAvailable}</h2>
-              <div className="flex flex-wrap gap-1.5">
-                {product.availableSizes.split(',').map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-lg border border-black/10 px-2.5 py-1 text-sm text-neutral-700"
-                  >
-                    {s.trim()}
-                  </span>
-                ))}
+          {product.sizeChartTable && product.sizeChartTable.length > 0 && (
+            <div className="mt-6">
+              <h2 className="mb-2 text-sm font-semibold text-neutral-900">{t.sizeChart}</h2>
+              <div className="overflow-hidden rounded-xl border border-black/10">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-neutral-50 text-left text-xs uppercase tracking-wide text-neutral-500">
+                      <th className="px-3 py-2 font-medium">{t.size}</th>
+                      <th className="px-3 py-2 font-medium">cm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {product.sizeChartTable.map((row) => (
+                      <tr key={row.size} className="border-t border-black/5">
+                        <td className="px-3 py-2 font-medium text-neutral-800">{row.size}</td>
+                        <td className="px-3 py-2 text-neutral-600">{row.measurementCm}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
 
           {product.sizeChartImage && (
             <div className="mt-6">
-              <h2 className="mb-2 text-sm font-semibold text-neutral-900">{t.sizeChart}</h2>
+              {(!product.sizeChartTable || product.sizeChartTable.length === 0) && (
+                <h2 className="mb-2 text-sm font-semibold text-neutral-900">{t.sizeChart}</h2>
+              )}
               <div className="relative aspect-[4/3] w-full max-w-sm overflow-hidden rounded-xl border border-black/10">
                 <Image
                   src={urlFor(product.sizeChartImage).width(800).url()}
                   alt={t.sizeChart}
                   fill
-                  className="object-contain bg-white"
+                  className="bg-white object-contain"
                   sizes="(max-width: 640px) 100vw, 384px"
                 />
               </div>
             </div>
           )}
         </div>
+      </div>
+
+      {/* Mobile fixed bottom action bar — keeps the inquire button always reachable */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/95 px-4 py-3 backdrop-blur sm:hidden">
+        <div className="flex items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-xs text-neutral-500">{displayName}</p>
+            <p className="text-base font-bold text-neutral-900">
+              LKR {product.price.toLocaleString()}
+            </p>
+          </div>
+          <a
+            href={canInquire ? waLink : undefined}
+            onClick={handleInquireClick}
+            target={canInquire ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            className={`inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold text-white transition active:scale-[0.98] ${
+              canInquire ? 'bg-[#25D366] active:bg-[#1ebe5a]' : 'bg-neutral-300'
+            }`}
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.94.56 3.76 1.53 5.3L2 22l4.93-1.6a9.83 9.83 0 0 0 5.11 1.4h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.44 17.5 2 12.04 2zm5.8 14.07c-.25.7-1.44 1.33-1.98 1.4-.5.08-1.14.11-1.84-.12-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.78-4.17-4.93-4.37-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.59-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.25.59.84 2.05.91 2.2.08.15.13.33.03.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.68-.15.28.1 1.77.83 2.08.98.3.15.5.22.57.35.08.13.08.73-.17 1.43z" />
+            </svg>
+            {t.inquireButton}
+          </a>
+        </div>
+        {showValidation && !canInquire && (
+          <p className="mt-1.5 text-center text-xs font-medium text-red-600">{t.selectBothToInquire}</p>
+        )}
       </div>
     </div>
   )

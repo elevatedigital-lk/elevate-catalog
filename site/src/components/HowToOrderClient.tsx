@@ -12,8 +12,11 @@ export default function HowToOrderClient({settings}: {settings: SiteSettings | n
 
   return (
     <div className="mx-auto max-w-2xl">
-      <Link href="/" className="mb-4 inline-block text-sm font-medium text-neutral-500 hover:text-neutral-900">
-        {t.backToCatalog}
+      <Link
+        href="/"
+        className="mb-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm active:scale-[0.97]"
+      >
+        <span aria-hidden>←</span> {t.backToCatalog.replace('← ', '')}
       </Link>
 
       <h1 className="mb-6 text-2xl font-bold text-neutral-900">{t.howToOrder}</h1>

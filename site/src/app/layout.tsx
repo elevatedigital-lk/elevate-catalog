@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Sans_Sinhala } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import LanguagePicker from "@/components/LanguagePicker";
+import HowToOrderNudge from "@/components/HowToOrderNudge";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <LanguageProvider>
           <LanguagePicker />
           {children}
+          <HowToOrderNudge />
         </LanguageProvider>
       </body>
     </html>
