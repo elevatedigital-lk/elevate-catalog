@@ -25,6 +25,15 @@ export type Dict = {
   priceRange: string
   done: string
   filtersActive: (count: number) => string
+  viewDetails: string
+  backToCatalog: string
+  howToOrder: string
+  description: string
+  sizesAvailable: string
+  sizeChart: string
+  orderPolicy: string
+  stepsToOrder: string
+  homeLink: string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -54,6 +63,15 @@ export const dict: Record<Lang, Dict> = {
     priceRange: 'Price range',
     done: 'Done',
     filtersActive: (count) => `${count} active`,
+    viewDetails: 'View details',
+    backToCatalog: '← Back to catalog',
+    howToOrder: 'How to Order',
+    description: 'Description',
+    sizesAvailable: 'Available sizes',
+    sizeChart: 'Size chart',
+    orderPolicy: 'Good to know',
+    stepsToOrder: 'Steps to order',
+    homeLink: 'Catalog',
   },
   si: {
     siteTitle: 'Beto',
@@ -81,5 +99,14 @@ export const dict: Record<Lang, Dict> = {
     priceRange: 'මිල පරාසය',
     done: 'සම්පූර්ණයි',
     filtersActive: (count) => `${count} ක් යොදා ඇත`,
+    viewDetails: 'විස්තර බලන්න',
+    backToCatalog: '← නිෂ්පාදන ලැයිස්තුවට',
+    howToOrder: 'ඇණවුම් කරන ආකාරය',
+    description: 'විස්තරය',
+    sizesAvailable: 'තිබෙන සයිස්',
+    sizeChart: 'සයිස් ප්‍රස්ථාරය',
+    orderPolicy: 'දැනගත යුතු දේ',
+    stepsToOrder: 'ඇණවුම් කරන පියවර',
+    homeLink: 'නිෂ්පාදන ලැයිස්තුව',
   },
 }

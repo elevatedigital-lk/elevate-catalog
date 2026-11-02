@@ -27,21 +27,43 @@ export type Product = {
   _id: string
   name: string
   nameSi?: string
+  slug: string
   code: string
   price: number
   images: SanityImageSource[]
   inStock: boolean
   category: Taxonomy | null
   productType: Taxonomy | null
+  description?: string
+  descriptionSi?: string
+  availableSizes?: string
+  sizeChartImage?: SanityImageSource
 }
+
+export type SiteSettings = {
+  policyNoteEn?: string
+  policyNoteSi?: string
+  orderingStepsEn?: string[]
+  orderingStepsSi?: string[]
+}
+
+const productProjection = `
+  _id, name, nameSi, "slug": slug.current, code, price, images, inStock,
+  category->{_id, name, nameSi},
+  productType->{_id, name, nameSi},
+  description, descriptionSi, availableSizes, sizeChartImage
+`
 
 export async function getProducts(): Promise<Product[]> {
   return client.fetch(
-    `*[_type == "product"] | order(order asc, _createdAt desc){
-      _id, name, nameSi, code, price, images, inStock,
-      category->{_id, name, nameSi},
-      productType->{_id, name, nameSi}
-    }`,
+    `*[_type == "product"] | order(order asc, _createdAt desc){${productProjection}}`,
+  )
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  return client.fetch(
+    `*[_type == "product" && slug.current == $slug][0]{${productProjection}}`,
+    {slug},
   )
 }
 
@@ -54,6 +76,12 @@ export async function getCategories(): Promise<Taxonomy[]> {
 export async function getProductTypes(): Promise<Taxonomy[]> {
   return client.fetch(
     `*[_type == "productType"] | order(order asc, name asc){_id, name, nameSi}`,
+  )
+}
+
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  return client.fetch(
+    `*[_type == "siteSettings"][0]{policyNoteEn, policyNoteSi, orderingStepsEn, orderingStepsSi}`,
   )
 }
 

@@ -18,6 +18,14 @@ export default defineType({
       description: 'Optional. Shown when a customer views the site in Sinhala. Falls back to the English name if left blank.',
     }),
     defineField({
+      name: 'slug',
+      title: 'URL Slug',
+      type: 'slug',
+      description: 'Used in the product page link. Click "Generate" to create it from the product name.',
+      options: {source: 'name', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'code',
       title: 'Product Code',
       type: 'string',
@@ -58,6 +66,32 @@ export default defineType({
       to: [{type: 'productType'}],
       description: 'Casual / Office / Sports etc. — add new types under "Type" in the sidebar.',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description (English)',
+      type: 'text',
+      rows: 4,
+      description: 'Optional. More detail shown on the product\'s own page (material, fit, etc.).',
+    }),
+    defineField({
+      name: 'descriptionSi',
+      title: 'Description (Sinhala)',
+      type: 'text',
+      rows: 4,
+      description: 'Optional. Falls back to the English description if left blank.',
+    }),
+    defineField({
+      name: 'availableSizes',
+      title: 'Available Sizes',
+      type: 'string',
+      description: 'Optional. Comma-separated, e.g. 38, 39, 40, 41, 42, 43, 44',
+    }),
+    defineField({
+      name: 'sizeChartImage',
+      title: 'Size Chart Image',
+      type: 'image',
+      description: 'Optional. Upload a size chart photo/diagram to show on the product page.',
     }),
     defineField({
       name: 'order',
