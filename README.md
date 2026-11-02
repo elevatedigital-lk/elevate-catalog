@@ -34,6 +34,24 @@ business (Beto) — potential future Elevate client if this takes off.
 Demo products ("Classic Runner" BT-101, "Trail Sprinter" BT-205) are live right
 now — delete or edit them before sharing the link with real customers.
 
+## Offers (sales/discounts on selected products)
+
+- "Offer" is its own document type in the Studio sidebar. Fields: title,
+  banner text (EN/SI), optional discount %, start date, end date, and which
+  products it applies to.
+- Only the offer whose date range currently includes today is shown — e.g.
+  create one "Christmas Sale" offer dated Dec 1–31 and it switches on/off
+  automatically, no need to delete/recreate it each year.
+- When active: a banner appears on the homepage (tap it to jump to the
+  product grid), and every product in the offer shows an "X% OFF" badge with
+  the discounted price (strikethrough original) on its card, its own page,
+  and in the WhatsApp message.
+- Keep it to **one offer running at a time** — if two date ranges overlap,
+  the site just picks one.
+- A separate, simpler "Top Announcement Bar" (Site Settings → the thin black
+  strip at the very top of every page) is always-on, not date-based — use it
+  for permanent info like delivery/handmade notices, not time-limited offers.
+
 ## Categories, Types & Filters
 
 - "Category" (Men / Women / Kids) and "Type" (Casual / Office / Sports /
