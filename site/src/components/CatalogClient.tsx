@@ -8,6 +8,7 @@ import FilterPills from './FilterPills'
 import FilterSheet from './FilterSheet'
 
 const ALL = 'all'
+type SortKey = 'newest' | 'price-asc' | 'price-desc'
 
 export default function CatalogClient({
   products,
@@ -31,19 +32,26 @@ export default function CatalogClient({
   const [minPrice, setMinPrice] = useState(0)
   const [maxPriceFilter, setMaxPriceFilter] = useState(maxPrice)
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [sort, setSort] = useState<SortKey>('newest')
 
   if (products.length === 0) {
     return <p className="text-center text-neutral-500">{t.noProductsYet}</p>
   }
 
-  const filtered = products.filter((p) => {
-    if (category !== ALL && p.category?._id !== category) return false
-    if (type !== ALL && p.productType?._id !== type) return false
-    if (inStockOnly && !p.inStock) return false
-    if (p.price < minPrice) return false
-    if (p.price > maxPriceFilter) return false
-    return true
-  })
+  const filtered = products
+    .filter((p) => {
+      if (category !== ALL && p.category?._id !== category) return false
+      if (type !== ALL && p.productType?._id !== type) return false
+      if (inStockOnly && !p.inStock) return false
+      if (p.price < minPrice) return false
+      if (p.price > maxPriceFilter) return false
+      return true
+    })
+    .sort((a, b) => {
+      if (sort === 'price-asc') return a.price - b.price
+      if (sort === 'price-desc') return b.price - a.price
+      return 0 // 'newest' — keep server order (already newest-first)
+    })
 
   function resetFilters() {
     setCategory(ALL)
@@ -70,13 +78,13 @@ export default function CatalogClient({
           <div className="flex items-center gap-2 pt-0.5">
             <button
               onClick={() => setSheetOpen(true)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+              className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
                 advancedActiveCount > 0
                   ? 'border-neutral-900 bg-neutral-900 text-white'
                   : 'border-black/10 bg-white text-neutral-600'
               }`}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
                 <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
               </svg>
               {t.moreFilters}
@@ -85,18 +93,28 @@ export default function CatalogClient({
               )}
             </button>
 
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="ml-auto shrink-0 rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-medium text-neutral-600"
+              aria-label={t.sortBy}
+            >
+              <option value="newest">{t.sortNewest}</option>
+              <option value="price-asc">{t.sortPriceLow}</option>
+              <option value="price-desc">{t.sortPriceHigh}</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-3 text-xs text-neutral-400">
             {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="rounded-full px-3 py-1.5 text-sm font-medium text-neutral-500 underline-offset-2 hover:underline"
+                className="font-medium text-neutral-500 underline-offset-2 hover:underline"
               >
                 {t.clearFilters}
               </button>
             )}
-
-            <span className="ml-auto whitespace-nowrap text-xs text-neutral-400">
-              {t.showing(filtered.length, products.length)}
-            </span>
+            <span className="whitespace-nowrap">{t.showing(filtered.length, products.length)}</span>
           </div>
         </div>
       </div>

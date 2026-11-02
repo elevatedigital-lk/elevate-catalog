@@ -2,7 +2,7 @@ import {getProducts, getCategories, getProductTypes, getSiteSettings} from '@/sa
 import CatalogClient from '@/components/CatalogClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
-import PolicyBanner from '@/components/PolicyBanner'
+import Hero from '@/components/Hero'
 import OfferBar from '@/components/OfferBar'
 import OfferBanner from '@/components/OfferBanner'
 
@@ -20,7 +20,7 @@ export default async function Home() {
     <main className="min-h-screen bg-neutral-50">
       <OfferBar barEn={settings?.offerBarEn} barSi={settings?.offerBarSi} />
       <SiteHeader />
-      <PolicyBanner noteEn={settings?.policyNoteEn} noteSi={settings?.policyNoteSi} />
+      <Hero />
 
       <div className="mx-auto max-w-5xl px-4 pt-5">
         <OfferBanner bannerEn={settings?.offerBannerEn} bannerSi={settings?.offerBannerSi} />

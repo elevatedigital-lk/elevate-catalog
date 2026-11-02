@@ -49,6 +49,12 @@ export type Dict = {
   nudgeTitle: string
   nudgeBody: string
   nudgeDismiss: string
+  heroHeadline: string
+  heroSubtext: string
+  sortBy: string
+  sortNewest: string
+  sortPriceLow: string
+  sortPriceHigh: string
 }
 
 export const dict: Record<Lang, Dict> = {
@@ -97,6 +103,12 @@ export const dict: Record<Lang, Dict> = {
     nudgeTitle: 'New here?',
     nudgeBody: 'See how ordering works in a few quick steps.',
     nudgeDismiss: 'Close',
+    heroHeadline: 'Quality shoes, made in Sri Lanka',
+    heroSubtext: 'Pick a style below and inquire on WhatsApp — simple as that.',
+    sortBy: 'Sort',
+    sortNewest: 'Newest',
+    sortPriceLow: 'Price: Low to High',
+    sortPriceHigh: 'Price: High to Low',
   },
   si: {
     siteTitle: 'Beto',
@@ -143,5 +155,11 @@ export const dict: Record<Lang, Dict> = {
     nudgeTitle: 'අලුතින් පැමිණියෙක්ද?',
     nudgeBody: 'ඇණවුම් කරන ආකාරය විනාඩියකින් බලන්න.',
     nudgeDismiss: 'වසන්න',
+    heroHeadline: 'ශ්‍රී ලංකාවේ හස්ත නිර්මිත ගුණාත්මක සපත්තු',
+    heroSubtext: 'පහතින් මාදිලියක් තෝරලා WhatsApp මගින් විමසන්න — එච්චරයි.',
+    sortBy: 'පෙළගැස්ම',
+    sortNewest: 'අලුත්ම',
+    sortPriceLow: 'මිල: අඩුම සිට වැඩිම',
+    sortPriceHigh: 'මිල: වැඩිම සිට අඩුම',
   },
 }
