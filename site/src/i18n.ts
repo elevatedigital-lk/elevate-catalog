@@ -180,7 +180,7 @@ export const dict: Record<Lang, Dict> = {
     sortNewest: 'අලුත්ම',
     sortPriceLow: 'මිල: අඩුම සිට වැඩිම',
     sortPriceHigh: 'මිල: වැඩිම සිට අඩුම',
-    offPercent: (percent) => `${percent}% අඩු`,
+    offPercent: (percent) => `${percent}% අඩුවෙන්`,
     offerBadge: 'දීමනාව',
     msrp: 'සාමාන්‍ය මිල',
     offerPrice: 'දීමනා මිල',
