@@ -34,7 +34,7 @@ export default function HeroSlider({slides}: {slides: HeroSlide[]}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count])
 
-  if (count === 0) return null
+  if (count === 0) return <PlaceholderSlide />
 
   return (
     <section className="relative overflow-hidden" style={{backgroundColor: 'var(--field-1)'}}>
@@ -105,6 +105,28 @@ export default function HeroSlider({slides}: {slides: HeroSlide[]}) {
           </div>
         </>
       )}
+    </section>
+  )
+}
+
+/** Shown when no hero slides are configured (or all are disabled) in
+ * Sanity — a simple branded placeholder, not a photo of any specific
+ * product, so it never implies a shoe is for sale that isn't. Deliberately
+ * short — there's no content to fill a full banner height with yet. */
+function PlaceholderSlide() {
+  return (
+    <section
+      className="flex h-40 w-full items-center justify-center sm:h-52 lg:h-64"
+      style={{backgroundColor: 'var(--field-1)', color: 'var(--field-1-ink)'}}
+    >
+      <div className="text-center opacity-70">
+        <p className="text-lg font-bold tracking-tight sm:text-xl" style={{fontFamily: 'var(--font-display)'}}>
+          Beto
+        </p>
+        <p className="mt-1 text-xs" style={{opacity: 0.8}}>
+          Handmade shoes, Sri Lanka
+        </p>
+      </div>
     </section>
   )
 }
