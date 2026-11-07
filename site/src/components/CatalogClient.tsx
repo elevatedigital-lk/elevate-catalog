@@ -162,7 +162,7 @@ export default function CatalogClient({
               </svg>
               {t.moreFilters}
               {advancedActiveCount > 0 && (
-                <span className="rounded-full px-1.5 text-[13px]" style={{backgroundColor: 'rgba(244,236,220,0.2)'}}>
+                <span className="rounded-full px-1.5 text-[13px]" style={{backgroundColor: 'rgba(255,255,255,0.2)'}}>
                   {advancedActiveCount}
                 </span>
               )}

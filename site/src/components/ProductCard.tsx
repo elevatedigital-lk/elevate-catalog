@@ -84,7 +84,7 @@ export default function ProductCard({
                 onClick={prev}
                 aria-label="Previous image"
                 className="absolute left-1.5 top-1/2 -translate-y-1/2 rounded-full p-1.5 opacity-0 transition group-hover:opacity-100"
-                style={{backgroundColor: 'rgba(244,236,220,0.85)', color: 'var(--ink)'}}
+                style={{backgroundColor: 'rgba(255,255,255,0.85)', color: 'var(--ink)'}}
               >
                 ‹
               </button>
@@ -92,7 +92,7 @@ export default function ProductCard({
                 onClick={next}
                 aria-label="Next image"
                 className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-full p-1.5 opacity-0 transition group-hover:opacity-100"
-                style={{backgroundColor: 'rgba(244,236,220,0.85)', color: 'var(--ink)'}}
+                style={{backgroundColor: 'rgba(255,255,255,0.85)', color: 'var(--ink)'}}
               >
                 ›
               </button>
@@ -101,7 +101,7 @@ export default function ProductCard({
                   <span
                     key={i}
                     className="h-1 w-1 rounded-full transition"
-                    style={{backgroundColor: i === index ? 'var(--bg)' : 'rgba(244,236,220,0.5)'}}
+                    style={{backgroundColor: i === index ? 'var(--bg)' : 'rgba(255,255,255,0.5)'}}
                   />
                 ))}
               </div>

@@ -8,7 +8,7 @@ export default function LanguagePicker() {
   if (lang !== null) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{backgroundColor: 'rgba(43,24,16,0.6)'}}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{backgroundColor: 'rgba(0,0,0,0.6)'}}>
       <div className="w-full max-w-sm rounded-2xl p-6 text-center shadow-xl" style={{backgroundColor: 'var(--bg)'}}>
         <h2 className="mb-1 text-lg font-semibold" style={{color: 'var(--ink)', fontFamily: 'var(--font-display)'}}>
           Beto

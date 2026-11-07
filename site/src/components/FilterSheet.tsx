@@ -29,7 +29,7 @@ export default function FilterSheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <div className="absolute inset-0" style={{backgroundColor: 'rgba(43,24,16,0.5)'}} onClick={onClose} />
+      <div className="absolute inset-0" style={{backgroundColor: 'rgba(0,0,0,0.5)'}} onClick={onClose} />
       <div
         className="relative w-full max-w-md rounded-t-3xl p-5 pb-8 shadow-xl sm:rounded-3xl"
         style={{backgroundColor: 'var(--bg)'}}
