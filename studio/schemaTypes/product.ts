@@ -148,7 +148,16 @@ export default defineType({
       name: 'sizeChartTable',
       title: 'Size Chart Table (text)',
       type: 'array',
-      description: 'Optional. A simple text table shown alongside (or instead of) the image — e.g. Size 40 → 25.5 cm.',
+      description: 'Optional. A simple text table shown alongside (or instead of) the image — e.g. Size 40 → 25.5 cm. Pre-filled with the standard chart; edit or clear if this shoe runs differently.',
+      initialValue: [
+        {_type: 'sizeChartRow', size: '38', measurementCm: '24.0'},
+        {_type: 'sizeChartRow', size: '39', measurementCm: '24.5'},
+        {_type: 'sizeChartRow', size: '40', measurementCm: '25.0'},
+        {_type: 'sizeChartRow', size: '41', measurementCm: '25.5'},
+        {_type: 'sizeChartRow', size: '42', measurementCm: '26.0'},
+        {_type: 'sizeChartRow', size: '43', measurementCm: '26.5'},
+        {_type: 'sizeChartRow', size: '44', measurementCm: '27.0'},
+      ],
       of: [
         {
           type: 'object',
