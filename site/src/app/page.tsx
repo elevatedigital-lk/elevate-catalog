@@ -2,7 +2,7 @@ import {getProducts, getCategories, getProductTypes, getSiteSettings, getActiveO
 import CatalogClient from '@/components/CatalogClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
-import Hero from '@/components/Hero'
+import HeroSlider from '@/components/HeroSlider'
 import OfferBar from '@/components/OfferBar'
 import OfferBanner from '@/components/OfferBanner'
 
@@ -21,7 +21,7 @@ export default async function Home() {
     <main className="min-h-screen" style={{backgroundColor: 'var(--bg)'}}>
       <OfferBar barEn={settings?.offerBarEn} barSi={settings?.offerBarSi} />
       <SiteHeader />
-      <Hero />
+      <HeroSlider slides={settings?.heroSlides || []} />
 
       {offer && (
         <div className="mx-auto max-w-6xl px-[var(--margin)] pb-10">

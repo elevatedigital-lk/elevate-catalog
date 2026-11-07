@@ -73,7 +73,14 @@ export type Product = {
   sizeChartTable?: SizeChartRow[]
 }
 
+export type HeroSlide = {
+  image: SanityImageSource
+  alt?: string
+  enabled?: boolean
+}
+
 export type SiteSettings = {
+  heroSlides?: HeroSlide[]
   offerBarEn?: string
   offerBarSi?: string
   policyNoteEn?: string
@@ -128,6 +135,7 @@ export async function getProductTypes(): Promise<Taxonomy[]> {
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   return client.fetch(
     `*[_type == "siteSettings"][0]{
+      "heroSlides": heroSlides[enabled != false]{image, alt, enabled},
       offerBarEn, offerBarSi,
       policyNoteEn, policyNoteSi, orderingStepsEn, orderingStepsSi
     }`,
