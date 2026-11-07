@@ -41,7 +41,7 @@ export default function HeroSlider({slides}: {slides: HeroSlide[]}) {
       <a
         href="#catalog"
         aria-label="Browse the catalog"
-        className="relative block aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/8]"
+        className="relative block aspect-[3/1] w-full"
         onTouchStart={(e) => {
           touchStartX.current = e.touches[0].clientX
         }}
