@@ -222,7 +222,7 @@ export default function CatalogClient({
         </p>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4" data-reveal>
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {paged.map((product) => (
               <ProductCard key={product._id} product={product} offer={offer} />
             ))}

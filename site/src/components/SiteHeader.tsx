@@ -8,15 +8,10 @@ export default function SiteHeader() {
   const {t} = useLanguage()
   return (
     <header
-      className="flex items-center justify-between px-[var(--margin)] py-3 sm:py-4"
+      className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-[var(--margin)] py-3 sm:py-4"
       style={{backgroundColor: 'var(--bg)', color: 'var(--ink)'}}
     >
-      <Link href="/">
-        <span className="text-lg font-bold tracking-tight sm:text-xl" style={{fontFamily: 'var(--font-display)'}}>
-          {t.siteTitle}
-        </span>
-      </Link>
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex justify-start">
         <Link
           href="/how-to-order"
           className="press flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold sm:text-sm"
@@ -29,6 +24,15 @@ export default function SiteHeader() {
           </svg>
           {t.howToOrder}
         </Link>
+      </div>
+
+      <Link href="/" className="justify-self-center">
+        <span className="text-lg font-bold tracking-tight sm:text-xl" style={{fontFamily: 'var(--font-display)'}}>
+          {t.siteTitle}
+        </span>
+      </Link>
+
+      <div className="flex justify-end">
         <LanguageToggle />
       </div>
     </header>

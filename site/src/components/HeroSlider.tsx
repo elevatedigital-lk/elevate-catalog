@@ -38,9 +38,7 @@ export default function HeroSlider({slides}: {slides: HeroSlide[]}) {
 
   return (
     <section className="relative overflow-hidden" style={{backgroundColor: 'var(--field-1)'}}>
-      <a
-        href="#catalog"
-        aria-label="Browse the catalog"
+      <div
         className="relative block aspect-[3/1] w-full"
         onTouchStart={(e) => {
           touchStartX.current = e.touches[0].clientX
@@ -69,7 +67,7 @@ export default function HeroSlider({slides}: {slides: HeroSlide[]}) {
             />
           </div>
         ))}
-      </a>
+      </div>
 
       {count > 1 && (
         <>
