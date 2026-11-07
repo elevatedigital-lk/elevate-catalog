@@ -3,6 +3,7 @@ import CatalogClient from '@/components/CatalogClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Hero from '@/components/Hero'
+import CraftStory from '@/components/CraftStory'
 import OfferBar from '@/components/OfferBar'
 import OfferBanner from '@/components/OfferBanner'
 
@@ -18,18 +19,22 @@ export default async function Home() {
   ])
 
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen" style={{backgroundColor: 'var(--bg)'}}>
       <OfferBar barEn={settings?.offerBarEn} barSi={settings?.offerBarSi} />
       <SiteHeader />
       <Hero />
+      <CraftStory />
 
       {offer && (
-        <div className="mx-auto max-w-5xl px-4 pt-4">
+        <div className="mx-auto max-w-6xl px-[var(--margin)] pb-10">
           <OfferBanner offer={offer} />
         </div>
       )}
 
-      <section id="catalog" className="mx-auto max-w-5xl scroll-mt-20 px-4 py-6">
+      <section
+        id="catalog"
+        className="mx-auto max-w-6xl scroll-mt-20 px-[var(--margin)] py-10 sm:py-16"
+      >
         <CatalogClient products={products} categories={categories} types={types} offer={offer} />
       </section>
 

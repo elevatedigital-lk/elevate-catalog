@@ -15,11 +15,12 @@ export default function FilterPills<T extends {_id: string; label: string}>({
     <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <button
         onClick={() => onSelect('all')}
-        className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition ${
+        className="press shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition"
+        style={
           activeId === 'all'
-            ? 'bg-neutral-900 text-white'
-            : 'bg-neutral-100 text-neutral-600 active:bg-neutral-200'
-        }`}
+            ? {backgroundColor: 'var(--ink)', color: 'var(--bg)'}
+            : {backgroundColor: 'var(--surface)', color: 'var(--muted)'}
+        }
       >
         {allLabel}
       </button>
@@ -27,11 +28,12 @@ export default function FilterPills<T extends {_id: string; label: string}>({
         <button
           key={item._id}
           onClick={() => onSelect(item._id)}
-          className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition ${
+          className="press shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition"
+          style={
             activeId === item._id
-              ? 'bg-neutral-900 text-white'
-              : 'bg-neutral-100 text-neutral-600 active:bg-neutral-200'
-          }`}
+              ? {backgroundColor: 'var(--ink)', color: 'var(--bg)'}
+              : {backgroundColor: 'var(--surface)', color: 'var(--muted)'}
+          }
         >
           {item.label}
         </button>

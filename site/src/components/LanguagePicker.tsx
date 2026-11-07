@@ -8,22 +8,26 @@ export default function LanguagePicker() {
   if (lang !== null) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-      <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-xl">
-        <h2 className="mb-1 text-lg font-semibold text-neutral-900">Beto</h2>
-        <p className="mb-5 text-sm text-neutral-500">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{backgroundColor: 'rgba(43,24,16,0.6)'}}>
+      <div className="w-full max-w-sm rounded-2xl p-6 text-center shadow-xl" style={{backgroundColor: 'var(--bg)'}}>
+        <h2 className="mb-1 text-lg font-semibold" style={{color: 'var(--ink)', fontFamily: 'var(--font-display)'}}>
+          Beto
+        </h2>
+        <p className="mb-5 text-sm" style={{color: 'var(--muted)'}}>
           Choose your language / ඔබගේ භාෂාව තෝරන්න
         </p>
         <div className="flex flex-col gap-3">
           <button
             onClick={() => setLang('en')}
-            className="rounded-xl bg-neutral-900 px-4 py-3 text-sm font-semibold text-white hover:bg-neutral-700"
+            className="press rounded-full px-4 py-3 text-sm font-semibold"
+            style={{backgroundColor: 'var(--ink)', color: 'var(--bg)'}}
           >
             English
           </button>
           <button
             onClick={() => setLang('si')}
-            className="rounded-xl border border-neutral-300 px-4 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
+            className="press rounded-full px-4 py-3 text-sm font-semibold"
+            style={{backgroundColor: 'var(--surface)', color: 'var(--ink)'}}
           >
             සිංහල
           </button>

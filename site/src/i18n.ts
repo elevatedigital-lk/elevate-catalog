@@ -50,8 +50,14 @@ export type Dict = {
   nudgeTitle: string
   nudgeBody: string
   nudgeDismiss: string
-  heroHeadline: string
+  heroHeadlineLine1: string
+  heroHeadlineLine2: string
   heroSubtext: string
+  heroKicker: string
+  heroCta: string
+  craftHeading: string
+  craftBody: string
+  craftFact: string
   sortBy: string
   sortNewest: string
   sortPriceLow: string
@@ -113,8 +119,14 @@ export const dict: Record<Lang, Dict> = {
     nudgeTitle: 'New here?',
     nudgeBody: 'See how ordering works in a few quick steps.',
     nudgeDismiss: 'Close',
-    heroHeadline: 'Quality shoes, made in Sri Lanka',
-    heroSubtext: 'Pick a style below and inquire on WhatsApp — simple as that.',
+    heroHeadlineLine1: 'Shaped by hand',
+    heroHeadlineLine2: 'not a factory.',
+    heroSubtext: 'Beto designs and makes each shoe himself, in Sri Lanka — no factory line, no middleman. Pick a style and inquire on WhatsApp.',
+    heroKicker: 'Handmade, start to finish',
+    heroCta: 'See the shoes',
+    craftHeading: 'Every pair starts on a last',
+    craftBody: 'Every Beto shoe starts on a last — the wooden mould a shoemaker carves to the shape of a foot, then builds a shoe around. Beto cuts, stitches and finishes each pair himself, the way it has been done in Sri Lanka for generations. No two batches are identical, because no machine made them.',
+    craftFact: 'Made to order, by hand, in Sri Lanka',
     sortBy: 'Sort',
     sortNewest: 'Newest',
     sortPriceLow: 'Price: Low to High',
@@ -174,8 +186,14 @@ export const dict: Record<Lang, Dict> = {
     nudgeTitle: 'අලුතින් පැමිණියෙක්ද?',
     nudgeBody: 'ඇණවුම් කරන ආකාරය විනාඩියකින් බලන්න.',
     nudgeDismiss: 'වසන්න',
-    heroHeadline: 'ශ්‍රී ලංකාවේ හස්ත නිර්මිත ගුණාත්මක සපත්තු',
-    heroSubtext: 'පහතින් මාදිලියක් තෝරලා WhatsApp මගින් විමසන්න — එච්චරයි.',
+    heroHeadlineLine1: 'අතින් සාදන ලදී,',
+    heroHeadlineLine2: 'කර්මාන්තශාලාවක නොවේ.',
+    heroSubtext: 'බෙටෝ විසින් සෑම සපත්තු යුගලයක්ම ශ්‍රී ලංකාවේදී තනි අතින් නිර්මාණය කර සාදනු ලැබේ — කර්මාන්ත ශාලාවක් නැත, මැදිහත්කරුවෙක් නැත. මාදිලියක් තෝරලා WhatsApp මගින් විමසන්න.',
+    heroKicker: 'මුල සිට අග දක්වා අතින් සාදන ලද',
+    heroCta: 'සපත්තු බලන්න',
+    craftHeading: 'සෑම යුගලයක්ම ආරම්භ වන්නේ ලාස්ට් එකකින්',
+    craftBody: 'සෑම බෙටෝ සපත්තුවක්ම ආරම්භ වන්නේ "ලාස්ට් එකකින්" — සපත්තු හස්ත කරුවෙකු පාදයේ හැඩයට කපන ලී සැකිල්ලෙන්, ඉන් පසු සපත්තුව ගොඩනඟනු ලැබේ. බෙටෝ සෑම යුගලයක්ම තනි අතින් කපා, මහලා, නිමකරනු ලබන්නේ පරම්පරා ගණනාවක් තිස්සේ ශ්‍රී ලංකාවේ පැවති ක්‍රමයටම ය. කිසිදු යන්ත්‍රයක් එය සෑදුවේ නැති බැවින් කිසිදු දෙකක් සමාන නැත.',
+    craftFact: 'ඇණවුමට අනුව, අතින්, ශ්‍රී ලංකාවේ සාදන ලද',
     sortBy: 'පෙළගැස්ම',
     sortNewest: 'අලුත්ම',
     sortPriceLow: 'මිල: අඩුම සිට වැඩිම',

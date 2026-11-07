@@ -188,11 +188,11 @@ export function localized(
   return item.name
 }
 
-/** Product display name, falling back to its code when no name was set. */
-export function productDisplayName(product: Product, lang: 'en' | 'si'): string {
-  if (lang === 'si' && product.nameSi) return product.nameSi
-  if (product.name) return product.name
-  return `#${product.code}`
+/** Customer-facing display identifier — always the product code, never the
+ * internal name (per the owner's decision: name stays in Sanity for internal
+ * reference only; customers and WhatsApp messages always see the code). */
+export function productDisplayName(product: Product, _lang: 'en' | 'si'): string {
+  return product.code
 }
 
 /** Custom offer badge text if the owner set one in Sanity, else null (caller falls back to the % template). */

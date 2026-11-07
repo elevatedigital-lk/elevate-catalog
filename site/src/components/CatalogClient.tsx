@@ -57,7 +57,11 @@ export default function CatalogClient({
   }, [category, type, inStockOnly, minPrice, maxPriceFilter, sort, pageSize])
 
   if (products.length === 0) {
-    return <p className="text-center text-neutral-500">{t.noProductsYet}</p>
+    return (
+      <p className="text-center" style={{color: 'var(--muted)'}}>
+        {t.noProductsYet}
+      </p>
+    )
   }
 
   const filtered = products
@@ -96,17 +100,23 @@ export default function CatalogClient({
 
   return (
     <div>
-      <div className="sticky top-0 z-30 -mx-4 mb-5 border-b border-black/5 bg-neutral-50/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:rounded-2xl sm:border sm:border-black/10 sm:bg-white sm:p-4 sm:shadow-sm">
+      <div
+        className="sticky top-0 z-30 -mx-[var(--margin)] mb-6 px-[var(--margin)] py-3 backdrop-blur sm:static sm:mx-0 sm:rounded-2xl sm:p-4"
+        style={{backgroundColor: 'var(--surface)'}}
+      >
         <div className="flex flex-col gap-2.5">
           {/* Mobile: compact dropdown selects (easy one-handed tap-to-pick) */}
           <div className="flex gap-2 sm:hidden">
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="min-h-[40px] flex-1 rounded-lg border border-black/10 bg-white px-2.5 text-sm font-medium text-neutral-700"
+              className="min-h-[40px] flex-1 rounded-lg px-2.5 text-sm font-medium"
+              style={{backgroundColor: 'var(--bg)', color: 'var(--ink)'}}
               aria-label={t.category}
             >
-              <option value={ALL}>{t.category}: {t.all}</option>
+              <option value={ALL}>
+                {t.category}: {t.all}
+              </option>
               {categoryItems.map((c) => (
                 <option key={c._id} value={c._id}>
                   {c.label}
@@ -116,10 +126,13 @@ export default function CatalogClient({
             <select
               value={type}
               onChange={(e) => setType(e.target.value)}
-              className="min-h-[40px] flex-1 rounded-lg border border-black/10 bg-white px-2.5 text-sm font-medium text-neutral-700"
+              className="min-h-[40px] flex-1 rounded-lg px-2.5 text-sm font-medium"
+              style={{backgroundColor: 'var(--bg)', color: 'var(--ink)'}}
               aria-label={t.type}
             >
-              <option value={ALL}>{t.type}: {t.all}</option>
+              <option value={ALL}>
+                {t.type}: {t.all}
+              </option>
               {typeItems.map((ty) => (
                 <option key={ty._id} value={ty._id}>
                   {ty.label}
@@ -137,29 +150,36 @@ export default function CatalogClient({
           <div className="flex items-center gap-2 pt-0.5">
             <button
               onClick={() => setSheetOpen(true)}
-              className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+              className="press inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium transition"
+              style={
                 advancedActiveCount > 0
-                  ? 'border-neutral-900 bg-neutral-900 text-white'
-                  : 'border-black/10 bg-white text-neutral-600'
-              }`}
+                  ? {backgroundColor: 'var(--ink)', color: 'var(--bg)'}
+                  : {backgroundColor: 'var(--bg)', color: 'var(--muted)'}
+              }
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">
                 <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
               </svg>
               {t.moreFilters}
               {advancedActiveCount > 0 && (
-                <span className="rounded-full bg-white/20 px-1.5 text-xs">{advancedActiveCount}</span>
+                <span className="rounded-full px-1.5 text-[13px]" style={{backgroundColor: 'rgba(244,236,220,0.2)'}}>
+                  {advancedActiveCount}
+                </span>
               )}
             </button>
 
-            <div className="ml-auto flex shrink-0 items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1.5">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-neutral-500">
+            <div
+              className="ml-auto flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5"
+              style={{backgroundColor: 'var(--bg)'}}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0" style={{color: 'var(--muted)'}}>
                 <path d="M3 7h10M3 12h7M3 17h4M17 4v16m0 0l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortKey)}
-                className="bg-transparent text-xs font-medium text-neutral-600"
+                className="bg-transparent text-[13px] font-medium"
+                style={{color: 'var(--ink)'}}
                 aria-label={t.sortBy}
               >
                 <option value="newest">{t.sortNewest}</option>
@@ -169,12 +189,9 @@ export default function CatalogClient({
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-xs text-neutral-400">
+          <div className="flex items-center gap-3 text-[13px]" style={{color: 'var(--muted)'}}>
             {hasActiveFilters && (
-              <button
-                onClick={resetFilters}
-                className="inline-flex items-center gap-1 font-medium text-neutral-500 hover:underline"
-              >
+              <button onClick={resetFilters} className="inline-flex items-center gap-1 font-medium hover:underline">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -182,11 +199,7 @@ export default function CatalogClient({
               </button>
             )}
             <span className="whitespace-nowrap">{t.showing(filtered.length, products.length)}</span>
-            {pageCount > 1 && (
-              <span className="whitespace-nowrap">
-                · {t.pageLabel(safePage, pageCount)}
-              </span>
-            )}
+            {pageCount > 1 && <span className="whitespace-nowrap">· {t.pageLabel(safePage, pageCount)}</span>}
           </div>
         </div>
       </div>
@@ -204,10 +217,12 @@ export default function CatalogClient({
       />
 
       {filtered.length === 0 ? (
-        <p className="py-12 text-center text-neutral-500">{t.noProductsMatch}</p>
+        <p className="py-12 text-center" style={{color: 'var(--muted)'}}>
+          {t.noProductsMatch}
+        </p>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4" data-reveal>
             {paged.map((product) => (
               <ProductCard key={product._id} product={product} offer={offer} />
             ))}

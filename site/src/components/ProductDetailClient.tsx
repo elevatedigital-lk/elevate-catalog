@@ -75,7 +75,8 @@ export default function ProductDetailClient({
     <div className="pb-24 sm:pb-0">
       <Link
         href="/"
-        className="mb-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-black/10 bg-white px-3.5 text-sm font-medium text-neutral-700 shadow-sm active:scale-[0.97]"
+        className="press mb-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-full px-3.5 text-sm font-medium"
+        style={{backgroundColor: 'var(--surface)', color: 'var(--ink)'}}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
           <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -85,7 +86,7 @@ export default function ProductDetailClient({
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-neutral-100">
+          <div className="relative aspect-square w-full overflow-hidden" style={{backgroundColor: 'var(--surface)'}}>
             {images[index] && (
               <Image
                 src={compressedUrl(images[index], 700, {quality: 70})}
@@ -97,12 +98,18 @@ export default function ProductDetailClient({
               />
             )}
             {!product.inStock && (
-              <span className="absolute left-3 top-3 rounded-full bg-black/80 px-3 py-1 text-xs font-medium text-white">
+              <span
+                className="absolute left-0 top-0 px-3 py-1 text-[13px] font-medium"
+                style={{backgroundColor: 'var(--ink)', color: 'var(--bg)'}}
+              >
                 {t.outOfStock}
               </span>
             )}
             {onOffer && (
-              <span className="absolute right-3 top-3 rounded-full bg-amber-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-neutral-900">
+              <span
+                className="absolute right-0 top-0 px-3 py-1 text-[13px] font-bold uppercase tracking-wide"
+                style={{backgroundColor: 'var(--accent)', color: 'var(--accent-ink)'}}
+              >
                 {offerBadgeText(offer!, lang ?? 'en') ??
                   (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
               </span>
@@ -114,9 +121,12 @@ export default function ProductDetailClient({
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
-                  className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition ${
-                    i === index ? 'border-neutral-900' : 'border-transparent opacity-70'
-                  }`}
+                  className="press relative h-16 w-16 shrink-0 overflow-hidden transition"
+                  style={{
+                    outline: i === index ? '2px solid var(--ink)' : '2px solid transparent',
+                    outlineOffset: '-2px',
+                    opacity: i === index ? 1 : 0.65,
+                  }}
                 >
                   <Image
                     src={compressedUrl(img, 120)}
@@ -134,43 +144,45 @@ export default function ProductDetailClient({
         <div>
           <div className="mb-2 flex flex-wrap gap-1.5">
             {product.category && (
-              <span className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600">
+              <span
+                className="rounded-full px-2.5 py-1 text-[13px] font-medium"
+                style={{backgroundColor: 'var(--surface)', color: 'var(--muted)'}}
+              >
                 {localized(product.category, lang ?? 'en')}
               </span>
             )}
             {product.productType && (
-              <span className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-600">
+              <span
+                className="rounded-full px-2.5 py-1 text-[13px] font-medium"
+                style={{backgroundColor: 'var(--surface)', color: 'var(--muted)'}}
+              >
                 {localized(product.productType, lang ?? 'en')}
               </span>
             )}
           </div>
 
-          <h1 className="text-2xl font-bold text-neutral-900">{displayName}</h1>
-          {product.name && (
-            <p className="mt-1 text-sm uppercase tracking-wide text-neutral-500">
-              {t.code}: {product.code}
-            </p>
-          )}
+          <h1 className="nums text-2xl font-bold" style={{color: 'var(--ink)', fontFamily: 'var(--font-display)'}}>
+            {displayName}
+          </h1>
 
           <div className="mt-3">
             {onOffer ? (
               <>
                 <p className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-amber-600">
+                  <span className="text-2xl font-bold" style={{color: 'var(--accent)'}}>
                     LKR {finalPrice.toLocaleString()}
                   </span>
                 </p>
-                <p className="mt-0.5 text-sm text-neutral-500">
-                  {t.msrp}:{' '}
-                  <span className="line-through">LKR {product.price.toLocaleString()}</span>
-                  <span className="ml-2 font-semibold text-amber-600">
+                <p className="mt-0.5 text-sm" style={{color: 'var(--muted)'}}>
+                  {t.msrp}: <span className="line-through">LKR {product.price.toLocaleString()}</span>
+                  <span className="ml-2 font-semibold" style={{color: 'var(--accent)'}}>
                     {offerBadgeText(offer!, lang ?? 'en') ??
                       (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
                   </span>
                 </p>
               </>
             ) : (
-              <p className="text-2xl font-bold text-neutral-900">
+              <p className="text-2xl font-bold" style={{color: 'var(--ink)'}}>
                 LKR {product.price.toLocaleString()}
               </p>
             )}
@@ -178,7 +190,7 @@ export default function ProductDetailClient({
 
           {needsColor && (
             <div className="mt-5">
-              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold" style={{color: 'var(--ink)'}}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor" />
                   <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor" />
@@ -201,17 +213,18 @@ export default function ProductDetailClient({
                         setShowValidation(false)
                       }}
                       title={c.inStock ? localized(c, lang ?? 'en') : `${localized(c, lang ?? 'en')} — ${t.outOfStock}`}
-                      className={`relative flex min-h-[44px] items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition ${
+                      className="press relative flex min-h-[44px] items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition"
+                      style={
                         !c.inStock
-                          ? 'cursor-not-allowed border-black/5 bg-neutral-50 text-neutral-300 line-through'
+                          ? {backgroundColor: 'var(--surface)', color: 'var(--muted)', opacity: 0.5, textDecoration: 'line-through', cursor: 'not-allowed'}
                           : active
-                            ? 'border-neutral-900 bg-neutral-900 text-white'
-                            : 'border-black/10 bg-white text-neutral-700 active:bg-neutral-50'
-                      }`}
+                            ? {backgroundColor: 'var(--ink)', color: 'var(--bg)'}
+                            : {backgroundColor: 'var(--surface)', color: 'var(--ink)'}
+                      }
                     >
                       {c.hex && (
                         <span
-                          className="h-4 w-4 shrink-0 rounded-full border border-black/10"
+                          className="h-4 w-4 shrink-0 rounded-full"
                           style={{backgroundColor: c.hex}}
                         />
                       )}
@@ -225,7 +238,7 @@ export default function ProductDetailClient({
 
           {needsSize && (
             <div className="mt-5">
-              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+              <h2 className="mb-2 flex items-center gap-1.5 text-sm font-semibold" style={{color: 'var(--ink)'}}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="2" y="7" width="20" height="10" rx="1.5" />
                   <path d="M6 7v3M10 7v3M14 7v3M18 7v3" strokeLinecap="round" />
@@ -245,13 +258,14 @@ export default function ProductDetailClient({
                         setShowValidation(false)
                       }}
                       title={!s.inStock ? t.outOfStock : undefined}
-                      className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border px-3 text-sm font-medium transition ${
+                      className="press flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full px-3 text-sm font-medium transition"
+                      style={
                         !s.inStock
-                          ? 'cursor-not-allowed border-black/5 bg-neutral-50 text-neutral-300 line-through'
+                          ? {backgroundColor: 'var(--surface)', color: 'var(--muted)', opacity: 0.5, textDecoration: 'line-through', cursor: 'not-allowed'}
                           : active
-                            ? 'border-neutral-900 bg-neutral-900 text-white'
-                            : 'border-black/10 bg-white text-neutral-700 active:bg-neutral-50'
-                      }`}
+                            ? {backgroundColor: 'var(--ink)', color: 'var(--bg)'}
+                            : {backgroundColor: 'var(--surface)', color: 'var(--ink)'}
+                      }
                     >
                       {s.size}
                     </button>
@@ -262,7 +276,9 @@ export default function ProductDetailClient({
           )}
 
           {showValidation && !canInquire && (
-            <p className="mt-3 text-sm font-medium text-red-600">{t.selectBothToInquire}</p>
+            <p className="mt-3 text-sm font-medium" style={{color: 'var(--accent)'}}>
+              {t.selectBothToInquire}
+            </p>
           )}
 
           <div className="mt-5 hidden sm:block">
@@ -275,14 +291,16 @@ export default function ProductDetailClient({
 
           {displayDescription && (
             <div className="mt-6">
-              <h2 className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-neutral-900">
+              <h2 className="mb-1 flex items-center gap-1.5 text-sm font-semibold" style={{color: 'var(--ink)'}}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 2h9l5 5v15H6V2z" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M15 2v5h5M9 13h6M9 17h6" strokeLinecap="round" />
                 </svg>
                 {t.description}
               </h2>
-              <p className="whitespace-pre-line text-sm text-neutral-600">{displayDescription}</p>
+              <p className="whitespace-pre-line text-sm" style={{color: 'var(--muted)'}}>
+                {displayDescription}
+              </p>
             </div>
           )}
 
@@ -291,21 +309,26 @@ export default function ProductDetailClient({
       </div>
 
       {/* Mobile fixed bottom action bar — keeps the inquire button always reachable */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/95 px-4 py-3 backdrop-blur sm:hidden">
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 px-4 py-3 shadow-[0_-4px_16px_rgba(43,24,16,0.12)] backdrop-blur sm:hidden"
+        style={{backgroundColor: 'rgba(244,236,220,0.96)'}}
+      >
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs text-neutral-500">{displayName}</p>
+            <p className="truncate text-[13px]" style={{color: 'var(--muted)'}}>
+              {displayName}
+            </p>
             {onOffer ? (
               <p className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold text-amber-600">
+                <span className="text-base font-bold" style={{color: 'var(--accent)'}}>
                   LKR {finalPrice.toLocaleString()}
                 </span>
-                <span className="text-xs text-neutral-400 line-through">
+                <span className="text-[13px] line-through" style={{color: 'var(--muted)'}}>
                   {product.price.toLocaleString()}
                 </span>
               </p>
             ) : (
-              <p className="text-base font-bold text-neutral-900">
+              <p className="text-base font-bold" style={{color: 'var(--ink)'}}>
                 LKR {product.price.toLocaleString()}
               </p>
             )}
@@ -315,9 +338,11 @@ export default function ProductDetailClient({
             onClick={handleInquireClick}
             target={canInquire ? '_blank' : undefined}
             rel="noopener noreferrer"
-            className={`inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold text-white transition active:scale-[0.98] ${
-              canInquire ? 'bg-[#25D366] active:bg-[#1ebe5a]' : 'bg-neutral-300'
-            }`}
+            className="press inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition"
+            style={{
+              backgroundColor: canInquire ? '#0e6b36' : 'var(--surface)',
+              color: canInquire ? '#ffffff' : 'var(--muted)',
+            }}
           >
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.94.56 3.76 1.53 5.3L2 22l4.93-1.6a9.83 9.83 0 0 0 5.11 1.4h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.44 17.5 2 12.04 2zm5.8 14.07c-.25.7-1.44 1.33-1.98 1.4-.5.08-1.14.11-1.84-.12-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.78-4.17-4.93-4.37-.14-.2-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.59-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.65.5.25.59.84 2.05.91 2.2.08.15.13.33.03.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.5-.15.15-.3.31-.13.6.17.3.78 1.28 1.67 2.07 1.15 1.02 2.12 1.34 2.42 1.49.3.15.48.13.66-.05.18-.18.76-.87.96-1.17.2-.3.4-.25.68-.15.28.1 1.77.83 2.08.98.3.15.5.22.57.35.08.13.08.73-.17 1.43z" />
@@ -326,7 +351,9 @@ export default function ProductDetailClient({
           </a>
         </div>
         {showValidation && !canInquire && (
-          <p className="mt-1.5 text-center text-xs font-medium text-red-600">{t.selectBothToInquire}</p>
+          <p className="mt-1.5 text-center text-[13px] font-medium" style={{color: 'var(--accent)'}}>
+            {t.selectBothToInquire}
+          </p>
         )}
       </div>
     </div>

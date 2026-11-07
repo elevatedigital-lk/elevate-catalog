@@ -1,26 +1,90 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   Beto design tokens — leather-craft direction ("one motif": the shoemaker's
+   last). Palette overridden from the dealt proportions onto this subject's
+   own material (oxblood leather, aged tan, cream vellum) — see project report
+   for why. Schibsted Grotesk replaces the default Geist font.
+   =========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f4ecdc;           /* warm vellum/parchment ground */
+  --surface: #e8dcc3;      /* second field tile: aged tan */
+  --ink: #2b1810;          /* deep oxblood-brown — all running text */
+  --muted: #6b5847;        /* secondary notes only, never running text */
+  --accent: #8a3324;       /* oxblood leather-dye red — the one accent */
+  --accent-ink: #f4ecdc;
+  --field-1: #2b1810;      --field-1-ink: #f4ecdc;  /* dark leather tile */
+  --field-2: #8a3324;      --field-2-ink: #f4ecdc;  /* oxblood tile */
+
+  --font-display: "Schibsted Grotesk", "Noto Sans Sinhala", sans-serif;
+  --font-text: "Schibsted Grotesk", "Noto Sans Sinhala", sans-serif;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  --step-display: clamp(2rem, 1.1rem + 3.2vw, 4.5rem);
+
+  --margin: clamp(1rem, 4vw, 2.5rem);
+  --gutter: clamp(1rem, 2vw, 2rem);
+  --section: clamp(3.5rem, 9vw, 8rem);
+  --radius: 999px; /* one radius decided once: full pill, or square (0) on photos */
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+img, video { height: auto; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
+.nums { font-variant-numeric: tabular-nums; }
+
+/* ---------- the motif: a shoemaker's last, in objectBoundingBox units so it
+   scales to any element it clips (photos, dividers, the hero shape) ---------- */
+.motif-mask { clip-path: url(#last-motif); }
+.motif-fill { fill: var(--accent); }
+
+/* ---------- motion: content stays visible without JS; .js gates the hidden state ---------- */
+.lines .line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.lines [data-line] { display: block; }
+.shutter { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-rise] { opacity: 0; transform: translateY(18px); animation: ad-rise 550ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 60ms + 60ms); }
+  .js .lines [data-line] { transform: translateY(105%); animation: ad-line 550ms var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 70ms + 80ms); }
+  .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 420ms var(--ease-out), transform 480ms var(--ease-out); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+  .js .shutter[data-reveal] { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); transition: clip-path 650ms var(--ease-in-out); }
+  .js .shutter[data-reveal] img { transform: scale(1.12); transition: transform 900ms var(--ease-soft); }
+  .js .shutter[data-reveal].is-in { clip-path: inset(0); }
+  .js .shutter[data-reveal].is-in img { transform: none; }
+}
+@keyframes ad-rise { to { opacity: 1; transform: none; } }
+@keyframes ad-line { to { transform: none; } }
+
+.press { transition: transform var(--t-press) var(--ease-out); }
+.press:active { transform: scale(0.97); }

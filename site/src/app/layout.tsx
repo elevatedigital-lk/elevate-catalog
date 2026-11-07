@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans_Sinhala } from "next/font/google";
+import { Schibsted_Grotesk, Noto_Sans_Sinhala } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import LanguagePicker from "@/components/LanguagePicker";
 import HowToOrderNudge from "@/components/HowToOrderNudge";
+import MotifDefs from "@/components/MotifDefs";
+import MotionInit from "@/components/MotionInit";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const schibsted = Schibsted_Grotesk({
+  variable: "--font-schibsted",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "600", "800"],
 });
 
 const notoSinhala = Noto_Sans_Sinhala({
@@ -22,20 +20,29 @@ const notoSinhala = Noto_Sans_Sinhala({
 });
 
 export const metadata: Metadata = {
-  title: "Beto | Shoe Catalog",
-  description: "Browse Beto's shoe collection and inquire via WhatsApp.",
+  title: "Beto | Handmade Shoes, Sri Lanka",
+  description: "One maker's craft, in every pair. Browse Beto's shoes and inquire via WhatsApp.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${notoSinhala.variable} h-full antialiased`}
+      className={`${schibsted.variable} ${notoSinhala.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
+      </head>
       <body
         className="min-h-full flex flex-col"
-        style={{ fontFamily: "var(--font-geist-sans), var(--font-sinhala), sans-serif" }}
+        style={{ fontFamily: "var(--font-schibsted), var(--font-sinhala), sans-serif" }}
       >
+        <MotifDefs />
+        <MotionInit />
         <LanguageProvider>
           <LanguagePicker />
           {children}
