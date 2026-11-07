@@ -11,7 +11,7 @@ export default function Hero() {
       className="relative overflow-hidden"
       style={{backgroundColor: 'var(--field-1)', color: 'var(--field-1-ink)'}}
     >
-      <div className="mx-auto grid max-w-6xl gap-8 px-[var(--margin)] py-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:py-20">
+      <div className="mx-auto grid max-w-6xl gap-6 px-[var(--margin)] py-8 sm:py-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-8 lg:py-20">
         <div>
           <h1
             className="lines"
@@ -48,7 +48,7 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="relative mx-auto aspect-square w-full" data-reveal>
+        <div className="relative mx-auto aspect-square w-full max-w-[260px] lg:max-w-none" data-reveal>
           <svg viewBox="0 0 1 1" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
             <defs>
               <clipPath id="hero-last-clip" clipPathUnits="objectBoundingBox">
