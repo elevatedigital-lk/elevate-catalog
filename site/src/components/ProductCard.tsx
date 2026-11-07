@@ -121,7 +121,7 @@ export default function ProductCard({
           {onOffer ? (
             <div className="mt-0.5">
               <p className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold sm:text-lg" style={{color: 'var(--accent)'}}>
+                <span className="text-base font-bold sm:text-lg" style={{color: 'var(--accent-strong)'}}>
                   LKR {finalPrice.toLocaleString()}
                 </span>
               </p>

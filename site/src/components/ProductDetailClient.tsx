@@ -169,13 +169,13 @@ export default function ProductDetailClient({
             {onOffer ? (
               <>
                 <p className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold" style={{color: 'var(--accent)'}}>
+                  <span className="text-2xl font-bold" style={{color: 'var(--accent-strong)'}}>
                     LKR {finalPrice.toLocaleString()}
                   </span>
                 </p>
                 <p className="mt-0.5 text-sm" style={{color: 'var(--muted)'}}>
                   {t.msrp}: <span className="line-through">LKR {product.price.toLocaleString()}</span>
-                  <span className="ml-2 font-semibold" style={{color: 'var(--accent)'}}>
+                  <span className="ml-2 font-semibold" style={{color: 'var(--accent-strong)'}}>
                     {offerBadgeText(offer!, lang ?? 'en') ??
                       (offer!.discountPercent ? t.offPercent(offer!.discountPercent) : t.offerBadge)}
                   </span>
@@ -276,7 +276,7 @@ export default function ProductDetailClient({
           )}
 
           {showValidation && !canInquire && (
-            <p className="mt-3 text-sm font-medium" style={{color: 'var(--accent)'}}>
+            <p className="mt-3 text-sm font-medium" style={{color: 'var(--accent-strong)'}}>
               {t.selectBothToInquire}
             </p>
           )}
@@ -310,8 +310,8 @@ export default function ProductDetailClient({
 
       {/* Mobile fixed bottom action bar — keeps the inquire button always reachable */}
       <div
-        className="fixed inset-x-0 bottom-0 z-40 px-4 py-3 shadow-[0_-4px_16px_rgba(43,24,16,0.12)] backdrop-blur sm:hidden"
-        style={{backgroundColor: 'rgba(244,236,220,0.96)'}}
+        className="fixed inset-x-0 bottom-0 z-40 px-4 py-3 shadow-[0_-4px_16px_rgba(0,0,0,0.1)] backdrop-blur sm:hidden"
+        style={{backgroundColor: 'rgba(255,255,255,0.96)'}}
       >
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1">
@@ -320,7 +320,7 @@ export default function ProductDetailClient({
             </p>
             {onOffer ? (
               <p className="flex items-baseline gap-1.5">
-                <span className="text-base font-bold" style={{color: 'var(--accent)'}}>
+                <span className="text-base font-bold" style={{color: 'var(--accent-strong)'}}>
                   LKR {finalPrice.toLocaleString()}
                 </span>
                 <span className="text-[13px] line-through" style={{color: 'var(--muted)'}}>
@@ -340,7 +340,7 @@ export default function ProductDetailClient({
             rel="noopener noreferrer"
             className="press inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition"
             style={{
-              backgroundColor: canInquire ? '#0e6b36' : 'var(--surface)',
+              backgroundColor: canInquire ? '#25D366' : 'var(--surface)',
               color: canInquire ? '#ffffff' : 'var(--muted)',
             }}
           >
@@ -351,7 +351,7 @@ export default function ProductDetailClient({
           </a>
         </div>
         {showValidation && !canInquire && (
-          <p className="mt-1.5 text-center text-[13px] font-medium" style={{color: 'var(--accent)'}}>
+          <p className="mt-1.5 text-center text-[13px] font-medium" style={{color: 'var(--accent-strong)'}}>
             {t.selectBothToInquire}
           </p>
         )}

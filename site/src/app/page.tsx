@@ -3,7 +3,6 @@ import CatalogClient from '@/components/CatalogClient'
 import SiteHeader from '@/components/SiteHeader'
 import SiteFooter from '@/components/SiteFooter'
 import Hero from '@/components/Hero'
-import CraftStory from '@/components/CraftStory'
 import OfferBar from '@/components/OfferBar'
 import OfferBanner from '@/components/OfferBanner'
 
@@ -23,7 +22,6 @@ export default async function Home() {
       <OfferBar barEn={settings?.offerBarEn} barSi={settings?.offerBarSi} />
       <SiteHeader />
       <Hero />
-      <CraftStory />
 
       {offer && (
         <div className="mx-auto max-w-6xl px-[var(--margin)] pb-10">

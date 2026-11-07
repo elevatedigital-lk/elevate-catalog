@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 /* ===========================================================================
-   Beto design tokens — leather-craft direction ("one motif": the shoemaker's
-   last). Palette overridden from the dealt proportions onto this subject's
-   own material (oxblood leather, aged tan, cream vellum) — see project report
-   for why. Schibsted Grotesk replaces the default Geist font.
+   Beto design tokens — clean neutral palette (white / near-black / amber
+   accent), matching the site's established look. Inter for English text,
+   Noto Sans Sinhala for Sinhala.
    =========================================================================== */
 :root {
-  --bg: #f4ecdc;           /* warm vellum/parchment ground */
-  --surface: #e8dcc3;      /* second field tile: aged tan */
-  --ink: #2b1810;          /* deep oxblood-brown — all running text */
-  --muted: #6b5847;        /* secondary notes only, never running text */
-  --accent: #8a3324;       /* oxblood leather-dye red — the one accent */
-  --accent-ink: #f4ecdc;
-  --field-1: #2b1810;      --field-1-ink: #f4ecdc;  /* dark leather tile */
-  --field-2: #8a3324;      --field-2-ink: #f4ecdc;  /* oxblood tile */
+  --bg: #ffffff;            /* page ground */
+  --surface: #f5f5f5;       /* second field tile: light neutral */
+  --ink: #171717;           /* near-black — all running text */
+  --muted: #525252;         /* secondary notes only, never running text */
+  --accent: #f59e0b;        /* amber — the one accent (buttons, badges, backgrounds) */
+  --accent-ink: #171717;
+  --accent-strong: #b45309; /* darker amber for text set directly on light backgrounds */
+  --field-1: #171717;      --field-1-ink: #ffffff;  /* dark tile */
+  --field-2: #fffbeb;      --field-2-ink: #78350f;  /* soft amber tile */
 
-  --font-display: "Schibsted Grotesk", "Noto Sans Sinhala", sans-serif;
-  --font-text: "Schibsted Grotesk", "Noto Sans Sinhala", sans-serif;
+  --font-display: "Inter", "Noto Sans Sinhala", sans-serif;
+  --font-text: "Inter", "Noto Sans Sinhala", sans-serif;
 
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
   --step-body: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
