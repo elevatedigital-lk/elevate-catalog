@@ -1,16 +1,15 @@
-# Beto Shoes — Shareable Catalog
+# MultiShop Catalog — Diversity Showcase
 
-Simple, 100% free shoe catalog site for WhatsApp sharing. Built for a friend's
-business (Beto) — potential future Elevate client if this takes off.
+Comprehensive, multi-category catalog demonstrating Elevate Catalog's flexibility.
+"Works for ANY shop type — fashion, electronics, groceries, furniture, and more."
 
 ## Live links
 
-- **Customer-facing site (share this on WhatsApp):** https://beto-shoes.vercel.app
-- **Admin panel (add/remove products, upload photos):** https://beto-shoes.sanity.studio
-  - Log in with the same Google/GitHub account used to create the Sanity project (dulajh.punchihewa@gmail.com via GitHub)
-- **Code repo (private):** https://github.com/DulajHP/beto-shoes
-- **Vercel project:** https://vercel.com/elevate-6e14/beto-shoes
-- **Sanity project console:** https://www.sanity.io/manage/project/68c6eq6z
+- **Customer-facing site (share this on WhatsApp):** https://multishop-catalog.vercel.app
+- **Admin panel (add/remove products, upload photos):** https://multishop-catalog.sanity.studio
+- **Code repo:** https://github.com/elevatedigital-lk/multishop-catalog
+- **Vercel project:** https://vercel.com/elevate-6e14/multishop-catalog
+- **Sanity project console:** https://www.sanity.io/manage/project/[PROJECT_ID]
 
 ## Stack (all free tier)
 
