@@ -1,11 +1,18 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm install && npm run build",
   "outputDirectory": "site/.next",
   "framework": "nextjs",
   "installCommand": "npm install",
+  "nodeVersion": "18.x",
   "env": {
     "NEXT_PUBLIC_SANITY_PROJECT_ID": "e805wil2",
     "NEXT_PUBLIC_SANITY_DATASET": "production",
     "NEXT_PUBLIC_SANITY_API_VERSION": "2024-01-01"
-  }
+  },
+  "wildcard": [
+    {
+      "domain": "elevate-catalog.vercel.app",
+      "value": "elevate-6e14.vercel.app"
+    }
+  ]
 }
