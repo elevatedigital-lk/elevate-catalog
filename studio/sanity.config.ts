@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'Beto Shoes',
 
-  projectId: '68c6eq6z',
+  projectId: 'e805wil2',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

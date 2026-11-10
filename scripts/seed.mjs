@@ -4,7 +4,7 @@ import {createClient} from '@sanity/client'
 import {v4 as uuid} from 'uuid'
 
 const client = createClient({
-  projectId: '68c6eq6z',
+  projectId: 'e805wil2',
   dataset: 'production',
   apiVersion: '2024-01-01',
   token: process.env.SANITY_AUTH_TOKEN, // Must be set before running
