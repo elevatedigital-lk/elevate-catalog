@@ -1,9 +1,8 @@
 {
-  "buildCommand": "npm install && npm run build",
-  "outputDirectory": "site/.next",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "root": "site",
   "env": {
     "NEXT_PUBLIC_SANITY_PROJECT_ID": "e805wil2",
     "NEXT_PUBLIC_SANITY_DATASET": "production",
