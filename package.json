@@ -1,0 +1,22 @@
+{
+  "name": "elevate-catalog",
+  "description": "Professional theme-based Elevate Catalog showcase website",
+  "private": true,
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "cd site && npm run dev",
+    "build": "cd site && npm run build",
+    "start": "cd site && npm run start",
+    "seed": "node scripts/seed.mjs",
+    "studio": "cd studio && npm run dev"
+  },
+  "workspaces": [
+    "site",
+    "studio"
+  ],
+  "devDependencies": {
+    "@sanity/client": "^8.14.1",
+    "uuid": "^9.0.1"
+  }
+}

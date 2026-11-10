@@ -7,7 +7,7 @@ import {useLanguage} from './LanguageProvider'
 export default function CollectionCard({collection}: {collection: Collection}) {
   const {lang} = useLanguage()
 
-  const collectionName = localized(collection, lang)
+  const collectionName = localized(collection, (lang as 'en' | 'si') || 'en')
   const productCount = collection.products?.length || 0
 
   return (

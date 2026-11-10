@@ -15,7 +15,7 @@ export default function CollectionDetailClient({
 }) {
   const {lang} = useLanguage()
 
-  const collectionName = localized(collection, lang)
+  const collectionName = localized(collection, (lang as 'en' | 'si') || 'en')
   const collectionDesc = lang === 'si' && collection.descriptionSi ? collection.descriptionSi : collection.description
   const backLabel = lang === 'si' ? dict.si.backToCatalog : dict.en.backToCatalog
 

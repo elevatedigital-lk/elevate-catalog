@@ -111,6 +111,44 @@ export type Collection = {
   order?: number
 }
 
+export type StoreType = {
+  _id: string
+  name: string
+  nameSi?: string
+  slug: {current: string}
+  description?: string
+  descriptionSi?: string
+  icon?: string
+  primaryColor?: string
+  order?: number
+  isDefault?: boolean
+}
+
+export type BannerSlide = {
+  image: SanityImageSource
+  headingEn?: string
+  headingSi?: string
+  subheadingEn?: string
+  subheadingSi?: string
+}
+
+export type HomepageContent = {
+  _id: string
+  title: string
+  banners?: BannerSlide[]
+  proposalV4Content?: string
+  showProposalSections?: boolean
+  proposalSections?: Array<{
+    type: string
+    titleEn?: string
+    titleSi?: string
+    contentEn?: string
+    contentSi?: string
+  }>
+  ctaButtonEn?: string
+  ctaButtonSi?: string
+}
+
 const productProjection = `
   _id, name, nameSi, code, price, images, inStock,
   category->{_id, name, nameSi},
@@ -235,4 +273,23 @@ export function offerBadgeText(offer: ActiveOffer, lang: 'en' | 'si'): string | 
   if (lang === 'si' && offer.badgeTextSi) return offer.badgeTextSi
   if (lang === 'en' && offer.badgeTextEn) return offer.badgeTextEn
   return null
+}
+
+export async function getStoreTypes(): Promise<StoreType[]> {
+  return client.fetch(
+    `*[_type == "storeType"] | order(order asc, name asc){_id, name, nameSi, slug, description, descriptionSi, icon, primaryColor, order, isDefault}`,
+  )
+}
+
+export async function getStoreTypeBySlug(slug: string): Promise<StoreType | null> {
+  return client.fetch(
+    `*[_type == "storeType" && slug.current == $slug][0]{_id, name, nameSi, slug, description, descriptionSi, icon, primaryColor, order, isDefault}`,
+    {slug},
+  )
+}
+
+export async function getHomepageContent(): Promise<HomepageContent | null> {
+  return client.fetch(
+    `*[_type == "homepageContent"][0]{_id, title, banners, proposalV4Content, showProposalSections, proposalSections, ctaButtonEn, ctaButtonSi}`,
+  )
 }
